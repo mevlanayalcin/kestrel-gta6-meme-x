@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Deterministic renderer for the GTA 6 × make.fun X Meme — Grand Palms Motel (1536x960 PNG)."""
+"""Deterministic renderer for the GTA 6 × make.fun X Meme — HR Leave Approval & Temp AI Replacement Badge (1536x960 PNG)."""
 
 from __future__ import annotations
 
@@ -22,7 +22,7 @@ OUTPUT_PATH = ROOT / "meme.png"
 
 
 def extract_clean_ghost_data_uri(mark_path: Path) -> str:
-    """Extract the official make.fun ghost + star-coin from mark-1024.png
+    """Extract the 100% UNMODIFIED official make.fun ghost + star-coin from mark-1024.png
     with exact analytical alpha decontamination along the outer black outline.
     Zero magenta halo, zero jagged edges, coin interior 100% untouched.
     """
@@ -35,7 +35,6 @@ def extract_clean_ghost_data_uri(mark_path: Path) -> str:
     magenta = np.array([196.0, 28.0, 131.0], dtype=np.float32)  # #c41c83
     d_mag = np.linalg.norm(rgb - magenta, axis=2)
 
-    # 1. Flood-fill outer magenta ring (stops at outer black circle & ghost black outline)
     outer_mag = np.zeros((h, w), dtype=bool)
     q: deque[tuple[int, int]] = deque([(140, 512)])
     outer_mag[140, 512] = True
@@ -48,7 +47,6 @@ def extract_clean_ghost_data_uri(mark_path: Path) -> str:
                     outer_mag[ny, nx] = True
                     q.append((ny, nx))
 
-    # 2. Flood-fill exterior (transparent corners + outer black ring)
     exterior = np.zeros((h, w), dtype=bool)
     q = deque([(0, 0)])
     exterior[0, 0] = True
@@ -88,8 +86,7 @@ def extract_clean_ghost_data_uri(mark_path: Path) -> str:
             out[y, x, :3] = black
             out[y, x, 3] = round(t * 255.0)
 
-    # Crop with clean headroom above head dome for tilted Grand Palms bellhop cap
-    cropped = out[85:834, 160:916].clip(0, 255).astype(np.uint8)
+    cropped = out[188:834, 158:916].clip(0, 255).astype(np.uint8)
     buf = io.BytesIO()
     Image.fromarray(cropped, mode="RGBA").save(buf, format="PNG")
     return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode("ascii")
@@ -133,251 +130,301 @@ def build_html(ghost_uri: str, wordmark_svg: str) -> str:
     text-rendering: geometricPrecision;
   }}
 
-  /* Sunlit Miami Art-Deco Teal-to-Coral Desk Surface */
+  /* Warm Vice-Sunset Desk Backdrop */
   .desk {{
-    position: relative; width: 1536px; height: 960px;
-    background: linear-gradient(180deg, #0C5660 0%, #158381 30%, #E76B67 72%, #FFB35B 100%);
-    display: flex; align-items: center; justify-content: center;
-    padding: 38px 42px;
-  }}
-  .desk-palms {{
-    position: absolute; inset: 0; pointer-events: none; z-index: 1;
+    position: relative;
+    width: 1536px; height: 960px;
+    background: linear-gradient(180deg, #161830 0%, #3E1851 38%, #982166 74%, #E86A62 100%);
+    overflow: hidden;
   }}
 
-  /* Grand Palms Motel Launch-Week Check-In Folio */
-  .folio {{
-    position: relative; z-index: 3;
-    width: 1452px; height: 884px;
-    background: #FFFDF7;
+  /* ===== LEFT 63%: CORPORATE HR EMERGENCY LEAVE APPROVAL FORM ===== */
+  .hr-form {{
+    position: absolute;
+    left: 34px; top: 38px;
+    width: 966px; height: 884px;
+    background: #FFFDF8;
     border-radius: 24px;
     border: 4.5px solid #191419;
-    box-shadow: 0 8px 16px rgba(10, 26, 32, 0.34);
+    box-shadow: 0 8px 16px rgba(10, 6, 22, 0.40);
     overflow: hidden;
     display: flex; flex-direction: column;
+    z-index: 3;
   }}
 
-  /* 1. ART-DECO MOTEL HEADER */
-  .motel-head {{
-    height: 134px;
-    background: #102736;
-    padding: 0 38px;
-    display: flex; align-items: center; justify-content: space-between; gap: 22px;
+  .hr-head {{
+    height: 124px;
+    background: #121830;
+    padding: 0 32px;
+    display: flex; align-items: center; justify-content: space-between; gap: 18px;
     flex-shrink: 0;
   }}
-  .motel-left {{ display: flex; align-items: center; gap: 22px; }}
-  .motel-crest {{ width: 90px; height: 90px; flex-shrink: 0; }}
-  .motel-titles {{ display: flex; flex-direction: column; gap: 4px; }}
-  .motel-name {{
-    font-weight: 900; font-size: 54px; line-height: 1.0;
-    color: #FFFFFF; letter-spacing: 1.4px;
+  .hr-head-left {{ display: flex; align-items: center; gap: 18px; }}
+  .hr-crest {{ width: 80px; height: 80px; flex-shrink: 0; }}
+  .hr-titles {{ display: flex; flex-direction: column; gap: 4px; }}
+  .hr-title {{
+    font-weight: 900; font-size: 46px; line-height: 1.0;
+    color: #FFFFFF; letter-spacing: 0.9px;
   }}
-  .motel-sub {{
-    font-weight: 900; font-size: 23px; line-height: 1.1;
-    color: #FFD166; letter-spacing: 3.4px;
+  .hr-sub {{
+    font-weight: 900; font-size: 22px; line-height: 1.1;
+    color: #FFD166; letter-spacing: 2.8px;
   }}
-  .suite-tag {{
-    background: #F25C66;
-    border: 3.5px solid #FFD166;
-    border-radius: 16px;
-    padding: 9px 26px 10px;
+  .form-num {{
+    border: 2.5px solid #2DD4BF;
+    background: rgba(20, 184, 166, 0.14);
+    border-radius: 13px;
+    padding: 8px 20px 10px;
     text-align: center;
     flex-shrink: 0;
   }}
-  .suite-lbl {{
-    font-weight: 900; font-size: 16px; letter-spacing: 2.8px; color: #FFF3D1;
+  .form-num-lbl {{
+    font-weight: 900; font-size: 15px; letter-spacing: 2.4px; color: #5EEAD4;
   }}
-  .suite-num {{
-    font-weight: 900; font-size: 46px; line-height: 1.0; color: #FFFFFF;
+  .form-num-val {{
+    font-weight: 900; font-size: 38px; line-height: 1.0; color: #FFFFFF;
+    margin-top: 2px;
   }}
 
   .deco-strip {{ height: 11px; display: flex; flex-direction: column; flex-shrink: 0; }}
-  .deco-strip .g {{ height: 6px; background: #14B8A6; }}
+  .deco-strip .t {{ height: 6px; background: #14B8A6; }}
   .deco-strip .c {{ height: 5px; background: #F25C66; }}
 
-  /* 2. GUEST REGISTRATION STRIP */
-  .guest-strip {{
-    height: 86px;
-    background: #EDF9F7;
-    border-bottom: 2.5px solid #C2E3DD;
-    padding: 0 38px;
-    display: flex; align-items: center; justify-content: space-between;
+  /* HERO REASON + APPROVED STAMP BAND */
+  .hero-band {{
+    height: 186px;
+    background: #F0FAF8;
+    border-bottom: 2.5px solid #C6E4DF;
+    padding: 20px 32px 18px 36px;
+    display: flex; align-items: center; justify-content: space-between; gap: 18px;
     flex-shrink: 0;
   }}
-  .g-item {{ display: flex; align-items: baseline; gap: 10px; }}
-  .g-lbl {{
-    font-weight: 900; font-size: 21px; letter-spacing: 1.3px; color: #0B7A75;
+  .hero-left {{ display: flex; flex-direction: column; gap: 10px; }}
+  .hero-kicker {{
+    font-weight: 900; font-size: 21px; letter-spacing: 2.2px; color: #0B7A75;
   }}
-  .g-val {{
-    font-weight: 900; font-size: 30px; color: #102736;
+  .hero-title {{
+    font-weight: 900; font-size: 48px; line-height: 1.0;
+    color: #121830; letter-spacing: -0.4px; white-space: nowrap;
   }}
-  .g-val.checkout {{
-    color: #C41C83; font-size: 34px;
-  }}
-  .g-late {{
-    font-weight: 900; font-size: 21px; color: #D62839;
-    background: #FEE2E2; padding: 4px 12px; border-radius: 8px; margin-left: 4px;
-  }}
-
-  /* 3. FOUR HUGE, ULTRA-CLEAN ITEMIZED LEDGER LINES */
-  .ledger {{
-    padding: 12px 40px 8px;
-    display: flex; flex-direction: column; gap: 4px;
-    flex-shrink: 0;
-  }}
-  .line {{
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 13px 12px;
-    border-bottom: 2.5px dashed #CBD5E1;
-    font-size: 34px; font-weight: 900; color: #14182E;
-  }}
-  .line-desc {{ white-space: nowrap; }}
-  .line-note {{ font-weight: 700; color: #475569; font-size: 29px; }}
-  .line-dots {{
-    flex: 1; margin: 0 20px;
-    border-bottom: 3.5px dotted #CBD5E1;
-    height: 16px;
-  }}
-  .line-amt {{
-    font-weight: 900; font-size: 36px; white-space: nowrap; color: #14182E;
-  }}
-  .amt-neg {{ color: #D62839; }}
-  .amt-free {{ color: #0B7A75; }}
-
-  /* Highlighted Mint/Emerald Autopay Row (make.fun woven natively into the bill!) */
-  .line.autopay {{
-    margin-top: 6px;
-    background: #E6FBF2;
-    border: 4px solid #0A8767;
-    border-radius: 16px;
-    padding: 15px 22px;
-  }}
-  .autopay-tag {{
-    background: #0A8767; color: #FFFFFF;
-    font-weight: 900; font-size: 22px; letter-spacing: 1.4px;
-    padding: 5px 14px; border-radius: 8px; margin-right: 12px;
-    vertical-align: middle;
-  }}
-  .autopay-mf {{ color: #C41C83; font-weight: 900; }}
-  .autopay .line-dots {{ border-bottom-color: #6EE7B7; }}
-  .autopay .line-amt {{ color: #067658; font-size: 38px; }}
-
-  /* 4. CLEAN BOTTOM VALIDATION + BELLHOP GHOST STAMP ZONE */
-  .folio-foot {{
-    flex: 1;
-    padding: 6px 40px 22px;
-    display: flex; align-items: center; justify-content: space-between; gap: 24px;
-  }}
-
-  .foot-left {{
-    width: 604px;
-    display: flex; flex-direction: column; justify-content: center; gap: 18px;
-  }}
-  .resched-bar {{
+  .hero-dates {{
     display: flex; align-items: center; gap: 14px;
-    font-size: 27px; font-weight: 800; color: #475569; white-space: nowrap;
-  }}
-  .resched-lbl {{
-    font-weight: 900; font-size: 21px; letter-spacing: 1.3px; color: #0B7A75;
+    font-size: 26px; font-weight: 900; color: #121830; white-space: nowrap;
   }}
   .strike {{
-    position: relative; display: inline-block; color: #64748B;
+    position: relative; display: inline-block;
+    color: #64748B; font-weight: 700;
   }}
   .strike::after {{
     content: ''; position: absolute; left: -4px; right: -4px; top: 50%;
     height: 3.6px; background: #D62839; transform: rotate(-4deg); border-radius: 2px;
   }}
-  .bal-row {{
-    display: flex; align-items: center; gap: 16px; white-space: nowrap;
+  .final-date {{ color: #0A8767; font-weight: 900; }}
+
+  .stamp-approved {{
+    transform: rotate(-7deg);
+    border: 5px solid #D62839;
+    border-radius: 15px;
+    padding: 4px;
+    background: rgba(255, 253, 248, 0.96);
+    flex-shrink: 0;
   }}
-  .bal-lbl {{
-    font-weight: 900; font-size: 29px; letter-spacing: 0.6px; color: #102736;
+  .stamp-approved-in {{
+    border: 2.5px solid #D62839;
+    border-radius: 9px;
+    padding: 10px 22px 11px;
+    text-align: center;
   }}
-  .bal-zero {{
-    font-weight: 900; font-size: 52px; line-height: 1.0; color: #0A8767;
+  .stamp-big {{
+    font-weight: 900; font-size: 42px; line-height: 1.0;
+    letter-spacing: 2.6px; color: #D62839;
   }}
-  .profit-pill {{
-    background: #ECFDF5; border: 3.5px solid #0A8767; color: #067658;
-    font-weight: 900; font-size: 25px; padding: 6px 16px; border-radius: 10px;
+  .stamp-rule {{
+    height: 2.5px; background: #D62839; margin: 6px 0 5px; opacity: 0.78;
+  }}
+  .stamp-small {{
+    font-weight: 900; font-size: 20px; letter-spacing: 1.8px; color: #D62839;
     white-space: nowrap;
   }}
-  .sig-text {{
+
+  /* FOUR GIANT SINGLE-LINE HR FIELDS */
+  .hr-body {{
+    flex: 1;
+    padding: 12px 36px 8px;
+    display: flex; flex-direction: column; justify-content: space-evenly;
+  }}
+  .hr-row {{
+    display: flex; align-items: baseline; gap: 18px;
+    padding: 20px 0;
+    border-bottom: 2.5px dashed #CBD5E1;
+  }}
+  .hr-row:last-child {{ border-bottom: none; }}
+  .hr-lbl {{
+    width: 196px; flex-shrink: 0;
+    font-weight: 900; font-size: 22px; letter-spacing: 1px;
+    color: #0B7A75; text-transform: uppercase; white-space: nowrap;
+  }}
+  .hr-val {{
+    flex: 1;
+    font-weight: 900; font-size: 31px; line-height: 1.15;
+    color: #121830; white-space: nowrap;
+  }}
+  .hr-val.symp {{ font-size: 29px; }}
+  .hr-val.pay {{ font-size: 29px; }}
+  .dot {{ color: #0D9488; font-weight: 900; margin: 0 7px; }}
+  .red-warn {{ color: #D62839; font-weight: 900; }}
+  .hot {{ color: #C41C83; font-weight: 900; }}
+  .mint {{ color: #0A8767; font-weight: 900; }}
+
+  /* CLEAN HR SIGNATURE FOOTER */
+  .hr-foot {{
+    height: 112px;
+    background: #F4FAF9;
+    border-top: 2.5px solid #C6E4DF;
+    padding: 0 36px;
+    display: flex; align-items: center; justify-content: space-between; gap: 22px;
+    flex-shrink: 0;
+  }}
+  .sig-lbl {{
+    font-weight: 900; font-size: 21px; letter-spacing: 1.4px; color: #0B7A75;
+    white-space: nowrap;
+  }}
+  .hr-sig-line {{
+    flex: 1;
     font-family: 'SigSerif', serif;
     font-weight: 700; font-style: italic;
-    font-size: 31px; color: #102736;
+    font-size: 35px; color: #121830;
     border-bottom: 3px solid #1E293B;
     padding-bottom: 4px;
     white-space: nowrap;
   }}
 
-  /* Right: Official make.fun Bellhop Ghost + Bold Magenta Validation Seal */
-  .stamp-zone {{
-    flex: 1;
-    display: flex; align-items: center; justify-content: flex-end; gap: 16px;
-  }}
-  .ghost-box {{
-    position: relative;
-    width: 248px; height: 246px;
-    flex-shrink: 0;
-  }}
-  .ghost-img {{
-    position: absolute; inset: 0; width: 100%; height: 100%; display: block;
-  }}
-  .ghost-hat {{
-    position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+  /* ===== RIGHT 34%: CLIPPED LAMINATED TEMP REPLACEMENT ID BADGE ===== */
+  .lanyard-svg {{
+    position: absolute;
+    left: 1184px; top: 0px;
+    width: 164px; height: 122px;
+    z-index: 8;
+    pointer-events: none;
   }}
 
-  .seal-outer {{
-    transform: rotate(-2.5deg);
-    border: 5px solid #C41C83;
-    border-radius: 20px;
-    padding: 5px;
-    background: #FFF9FC;
+  .badge-card {{
+    position: absolute;
+    left: 1030px; top: 82px;
+    width: 472px; height: 840px;
+    background: #FFFFFF;
+    border-radius: 28px;
+    border: 4.5px solid #191419;
+    box-shadow: 0 10px 18px rgba(10, 5, 24, 0.45);
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    z-index: 5;
+  }}
+
+  .badge-top {{
+    position: relative;
+    height: 116px;
+    background: linear-gradient(180deg, #C41C83 0%, #9E146B 100%);
+    border-bottom: 4.5px solid #191419;
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+    padding-bottom: 14px;
     flex-shrink: 0;
   }}
-  .seal-inner {{
-    border: 2.5px solid #C41C83;
-    border-radius: 13px;
-    padding: 15px 26px 17px;
+  .punch-slot {{
+    position: absolute;
+    top: 16px; left: 50%; transform: translateX(-50%);
+    width: 82px; height: 18px;
+    background: #231438;
+    border: 3.5px solid #191419;
+    border-radius: 999px;
+  }}
+  .badge-top-title {{
+    font-weight: 900; font-size: 36px; line-height: 1.0;
+    letter-spacing: 1.2px; color: #FFFFFF;
+    text-shadow: 0 2px 0 rgba(25, 20, 25, 0.30);
+    white-space: nowrap;
+  }}
+
+  /* ID Photo Box with 100% UNMODIFIED Official make.fun Ghost Mascot */
+  .photo-frame {{
+    position: relative;
+    margin: 22px 26px 16px;
+    height: 294px;
+    background: #F4EDF9;
+    border: 4px solid #191419;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }}
+  .height-lines {{
+    position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;
+  }}
+  .ghost-photo {{
+    position: relative; z-index: 2;
+    width: 292px; height: 249px;
+    object-fit: contain;
+    display: block;
+  }}
+
+  .badge-fields {{
+    flex: 1;
+    padding: 4px 26px 24px;
+    display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+  }}
+  .bf-name {{
+    font-weight: 900; font-size: 44px; line-height: 1.0; color: #121830;
+    letter-spacing: 0.5px; text-align: center;
+  }}
+
+  .bf-agency-box {{
+    width: 100%;
+    padding: 16px 20px 18px;
+    background: #FFF9FC;
+    border: 4px solid #191419;
+    border-radius: 18px;
     display: flex; flex-direction: column; align-items: center; gap: 10px;
   }}
-  .seal-top {{
-    background: #C41C83; color: #FFFFFF;
-    font-weight: 900; font-size: 25px; letter-spacing: 1.3px;
-    padding: 6px 22px; border-radius: 999px; white-space: nowrap;
+  .wm-svg {{ height: 52px; width: auto; display: block; }}
+  .bf-pitch {{
+    font-weight: 900; font-size: 25px; line-height: 1.15;
+    color: #C41C83; text-align: center; white-space: nowrap;
   }}
-  .wm-svg {{ height: 56px; width: auto; display: block; }}
-  .seal-bot {{
-    font-weight: 900; font-size: 26px; letter-spacing: 1.0px;
-    color: #14182E; white-space: nowrap;
+  .bf-pitch-sub {{
+    font-weight: 800; font-size: 22px; line-height: 1.1;
+    color: #334155; text-align: center; white-space: nowrap;
   }}
-  .seal-bot span {{ color: #C41C83; }}
+
+  .status-pill {{
+    width: 100%;
+    background: #ECFDF5;
+    border: 4px solid #0A8767;
+    color: #067658;
+    border-radius: 14px;
+    padding: 12px 14px;
+    text-align: center;
+    font-weight: 900; font-size: 26px; letter-spacing: 0.7px;
+    white-space: nowrap;
+  }}
 </style></head>
 <body>
 <div class="desk">
-  <svg class="desk-palms" viewBox="0 0 1536 960" xmlns="http://www.w3.org/2000/svg">
-    <g fill="#082429" opacity="0.22">
-      <path d="M 1556 -10 C 1430 18 1350 72 1280 158 C 1375 100 1455 70 1556 60 Z"/>
-      <path d="M 1556 50 C 1455 96 1390 164 1345 256 C 1420 184 1480 138 1556 116 Z"/>
-      <path d="M -20 970 C 96 938 176 882 246 794 C 154 852 78 884 -20 896 Z"/>
-    </g>
-  </svg>
-
-  <div class="folio">
-    <!-- 1. ART-DECO MOTEL HEADER -->
-    <header class="motel-head">
-      <div class="motel-left">
-        <svg class="motel-crest" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- ===== LEFT: CORPORATE HR EMERGENCY LEAVE APPROVAL FORM ===== -->
+  <section class="hr-form">
+    <header class="hr-head">
+      <div class="hr-head-left">
+        <svg class="hr-crest" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="gpSun" x1="0" y1="0" x2="0" y2="1">
+            <linearGradient id="hrSun" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stop-color="#FFD166"/>
               <stop offset="55%" stop-color="#FF6B7A"/>
               <stop offset="100%" stop-color="#C41C83"/>
             </linearGradient>
           </defs>
-          <circle cx="50" cy="50" r="46" fill="#14B8A6" stroke="#FFD166" stroke-width="3.5"/>
-          <circle cx="50" cy="50" r="38" fill="#102736"/>
-          <circle cx="50" cy="50" r="31" fill="url(#gpSun)"/>
-          <g fill="#102736">
+          <circle cx="50" cy="50" r="46" fill="#14B8A6" stroke="#5EEAD4" stroke-width="3"/>
+          <circle cx="50" cy="50" r="38" fill="#121830"/>
+          <circle cx="50" cy="50" r="31" fill="url(#hrSun)"/>
+          <g fill="#121830">
             <path d="M 46 80 Q 52 59 50 40 L 55 40 Q 57 59 53 80 Z"/>
             <path d="M 51 41 C 37 36 27 40 22 48 C 32 45 41 46 50 47 Z"/>
             <path d="M 51 40 C 41 27 29 24 23 29 C 33 31 41 35 50 41 Z"/>
@@ -386,103 +433,112 @@ def build_html(ghost_uri: str, wordmark_svg: str) -> str:
             <path d="M 52 43 C 62 45 70 51 73 58 C 65 53 58 49 52 48 Z"/>
           </g>
         </svg>
-        <div class="motel-titles">
-          <div class="motel-name">GRAND PALMS MOTEL</div>
-          <div class="motel-sub">OCEAN BEACH · VICE CITY, LEONIDA</div>
+        <div class="hr-titles">
+          <div class="hr-title">HUMAN RESOURCES</div>
+          <div class="hr-sub">EMERGENCY LEAVE APPROVAL</div>
         </div>
       </div>
-      <div class="suite-tag">
-        <div class="suite-lbl">SUITE</div>
-        <div class="suite-num">#VI</div>
+
+      <div class="form-num">
+        <div class="form-num-lbl">FORM</div>
+        <div class="form-num-val">#VI</div>
       </div>
     </header>
 
-    <div class="deco-strip"><div class="g"></div><div class="c"></div></div>
+    <div class="deco-strip"><div class="t"></div><div class="c"></div></div>
 
-    <!-- 2. GUEST REGISTRATION STRIP -->
-    <section class="guest-strip">
-      <div class="g-item">
-        <span class="g-lbl">GUEST:</span>
-        <span class="g-val">ME, JASON &amp; LUCIA</span>
-      </div>
-      <div class="g-item">
-        <span class="g-lbl">CHECK-IN:</span>
-        <span class="g-val">NOV 19, 2026</span>
-        <span class="g-late">13 YRS LATE</span>
-      </div>
-      <div class="g-item">
-        <span class="g-lbl">CHECK-OUT:</span>
-        <span class="g-val checkout">GTA VII</span>
-      </div>
-    </section>
-
-    <!-- 3. FOUR GIANT, CLEAN ITEMIZED LEDGER LINES -->
-    <section class="ledger">
-      <div class="line">
-        <span class="line-desc">GTA VI Launch Copy <span class="line-note">(214 GB · RIP my SSD)</span></span>
-        <span class="line-dots"></span>
-        <span class="line-amt">$79.99</span>
-      </div>
-      <div class="line">
-        <span class="line-desc">5× &ldquo;Vice City Flu&rdquo; Unpaid Sick Days <span class="line-note">(boss: do NOT call)</span></span>
-        <span class="line-dots"></span>
-        <span class="line-amt amt-neg">$1,450.00</span>
-      </div>
-      <div class="line">
-        <span class="line-desc">Emotional Support Florida Gator <span class="line-note">(poolside suite)</span></span>
-        <span class="line-dots"></span>
-        <span class="line-amt amt-free">FREE</span>
-      </div>
-      <div class="line autopay">
-        <span class="line-desc"><span class="autopay-tag">AUTOPAY</span>My AI Agent on <span class="autopay-mf">make.fun</span> <span class="line-note">(real USDC bounty)</span></span>
-        <span class="line-dots"></span>
-        <span class="line-amt">-$1,666.00</span>
-      </div>
-    </section>
-
-    <!-- 4. CLEAN BOTTOM VALIDATION + BELLHOP GHOST STAMP ZONE -->
-    <footer class="folio-foot">
-      <div class="foot-left">
-        <div class="resched-bar">
-          <span class="resched-lbl">DELAYED:</span>
+    <!-- HERO REASON & APPROVED STAMP BAND -->
+    <div class="hero-band">
+      <div class="hero-left">
+        <div class="hero-kicker">STATED REASON</div>
+        <div class="hero-title">ACUTE VICE CITY FLU</div>
+        <div class="hero-dates">
           <span class="strike">Fall 2025</span>
           <span class="strike">May 2026</span>
-          <span style="color:#0A8767;font-weight:900;">→ CHECKED IN!</span>
-        </div>
-        <div class="bal-row">
-          <span class="bal-lbl">BALANCE:</span>
-          <span class="bal-zero">$0.00</span>
-          <span class="profit-pill">+$136.01 PROFIT</span>
-        </div>
-        <div class="sig-text">Concierge AI Agent &nbsp;(grinding while I play)</div>
-      </div>
-
-      <div class="stamp-zone">
-        <!-- Official make.fun Ghost dressed as Grand Palms Bellhop/Concierge! -->
-        <div class="ghost-box">
-          <img class="ghost-img" src="{ghost_uri}" alt="make.fun concierge ghost" />
-          <svg class="ghost-hat" viewBox="0 0 756 749" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g transform="rotate(-11 312 108)">
-              <path d="M 218 128 L 226 42 Q 312 18 398 42 L 406 128 Q 312 146 218 128 Z"
-                    fill="#14B8A6" stroke="#191419" stroke-width="24" stroke-linejoin="round"/>
-              <path d="M 220 100 Q 312 118 404 100 L 406 128 Q 312 146 218 128 Z"
-                    fill="#FFD166" stroke="#191419" stroke-width="18" stroke-linejoin="round"/>
-              <path d="M 244 50 Q 312 32 380 50" stroke="#99F6E4" stroke-width="10" stroke-linecap="round" opacity="0.8"/>
-              <circle cx="312" cy="76" r="14" fill="#FFD166" stroke="#191419" stroke-width="10"/>
-            </g>
-          </svg>
-        </div>
-
-        <div class="seal-outer">
-          <div class="seal-inner">
-            <div class="seal-top">✓ PAID BY MY AI AGENT</div>
-            {wm}
-            <div class="seal-bot"><span>BOUNTIES</span> · REAL MONEY</div>
-          </div>
+          <span style="color:#0D9488;">→</span>
+          <span class="final-date">NOV 19, 2026</span>
         </div>
       </div>
+
+      <div class="stamp-approved">
+        <div class="stamp-approved-in">
+          <div class="stamp-big">APPROVED</div>
+          <div class="stamp-rule"></div>
+          <div class="stamp-small">NO QUESTIONS ASKED</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOUR GIANT SINGLE-LINE HR FIELDS -->
+    <div class="hr-body">
+      <div class="hr-row">
+        <div class="hr-lbl">TENURE:</div>
+        <div class="hr-val">13 years waiting since Los Santos (2013)</div>
+      </div>
+
+      <div class="hr-row">
+        <div class="hr-lbl">SYMPTOMS:</div>
+        <div class="hr-val symp">214 GB SSD<span class="dot">·</span>Florida gators<span class="dot">·</span>Jason &amp; Lucia</div>
+      </div>
+
+      <div class="hr-row">
+        <div class="hr-lbl">DURATION:</div>
+        <div class="hr-val">5 Unpaid Days <span style="font-weight:700;color:#475569;">(boss:</span> <span class="red-warn">do NOT call</span><span style="font-weight:700;color:#475569;">)</span></div>
+      </div>
+
+      <div class="hr-row">
+        <div class="hr-lbl">PAYROLL:</div>
+        <div class="hr-val pay">Temp AI covers <span class="hot">$79.99</span> + pay (<span class="mint">$1,666 won</span>) →</div>
+      </div>
+    </div>
+
+    <footer class="hr-foot">
+      <span class="sig-lbl">SIGNED:</span>
+      <div class="hr-sig-line">H.R. Dept. &nbsp;(also calling in sick)</div>
     </footer>
-  </div>
+  </section>
+
+  <!-- ===== METALLIC LANYARD CLIP & MAGENTA RIBBON ===== -->
+  <svg class="lanyard-svg" viewBox="0 0 164 122" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M 52 -4 L 62 62 L 102 62 L 112 -4 Z" fill="#C41C83" stroke="#191419" stroke-width="5"/>
+    <path d="M 65 -4 L 72 60 M 99 -4 L 92 60" stroke="#F472B6" stroke-width="3" opacity="0.65"/>
+    <rect x="54" y="50" width="56" height="32" rx="8" fill="#CBD5E1" stroke="#191419" stroke-width="5"/>
+    <rect x="64" y="58" width="36" height="10" rx="4" fill="#F8FAFC"/>
+    <path d="M 70 82 L 70 108 Q 82 116 94 108 L 94 82" stroke="#94A3B8" stroke-width="10" stroke-linecap="round"/>
+    <path d="M 70 82 L 70 108 Q 82 116 94 108 L 94 82" stroke="#191419" stroke-width="4" stroke-linecap="round" fill="none"/>
+  </svg>
+
+  <!-- ===== RIGHT: CLIPPED LAMINATED TEMP REPLACEMENT ID BADGE ===== -->
+  <aside class="badge-card">
+    <div class="badge-top">
+      <div class="punch-slot"></div>
+      <div class="badge-top-title">TEMP REPLACEMENT</div>
+    </div>
+
+    <div class="photo-frame">
+      <svg class="height-lines" viewBox="0 0 416 294" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#DDD0EC" stroke-width="2.5">
+          <line x1="0" y1="54" x2="416" y2="54"/>
+          <line x1="0" y1="114" x2="416" y2="114"/>
+          <line x1="0" y1="174" x2="416" y2="174"/>
+          <line x1="0" y1="234" x2="416" y2="234"/>
+        </g>
+      </svg>
+      <img class="ghost-photo" src="{ghost_uri}" alt="make.fun ghost mascot" />
+    </div>
+
+    <div class="badge-fields">
+      <div class="bf-name">MY AI AGENT</div>
+
+      <div class="bf-agency-box">
+        {wm}
+        <div class="bf-pitch">wins real money in bounties</div>
+        <div class="bf-pitch-sub">while I play GTA VI</div>
+      </div>
+
+      <div class="status-pill">✓ BOSS HASN&rsquo;T NOTICED</div>
+    </div>
+  </aside>
 </div>
 </body></html>
 """
