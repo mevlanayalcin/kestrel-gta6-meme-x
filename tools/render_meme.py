@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 """Deterministically render the GTA 6 x make.fun X meme (`meme.png`, 1024x960 RGB PNG <= 450 KB).
 
-Concept: LEONIDA DEPT. OF CORRECTIONS — OFFICIAL PAROLE RELEASE ORDER
-- 1024x960 (16:15) scales cleanly 2x to 512x480 (exact maximum house image resolution).
-- Uses the 100% unmodified official make.fun ghost mark (`tools/mark-1024.png`) via analytical
-  alpha decontamination and the official lowercase wordmark (`tools/wordmark.svg`).
+Concept (`v10b_parole_hero`): LEONIDA DEPT. OF CORRECTIONS — PAROLE ORDER · V -> VI
+- 1024x960 (16:15) downscales cleanly 2x to 512x480 (exact maximum house resolution).
+- Giant 1-glance headline (`Paroled after 13 years.`), illustrated Vice City sunset open-cell
+  release scene with swung-open LOS SANTOS cell, Florida gator holding VICE CITY sign, BAIL POSTED
+  stamp, and the 100% unmodified official make.fun ghost (`tools/mark-1024.png`, analytical alpha
+  decontamination) acting in-scene as `SURETY AGENT #01`, plus 3 airy big-type punchlines, crossed-out
+  delay strip, and bold 2-line navy bondsman bar featuring the official lowercase `tools/wordmark.svg`.
 """
 
 from __future__ import annotations
@@ -101,11 +104,6 @@ def build_html(ghost_uri: str, wordmark_svg: str) -> str:
 <html lang="en"><head><meta charset="utf-8" /><style>
   @font-face {{
     font-family: 'LatoLocal';
-    src: url('file:///usr/share/fonts/truetype/lato/Lato-Regular.ttf') format('truetype');
-    font-weight: 400; font-style: normal;
-  }}
-  @font-face {{
-    font-family: 'LatoLocal';
     src: url('file:///usr/share/fonts/truetype/lato/Lato-Bold.ttf') format('truetype');
     font-weight: 700; font-style: normal;
   }}
@@ -119,11 +117,6 @@ def build_html(ghost_uri: str, wordmark_svg: str) -> str:
     src: url('file:///usr/share/fonts/truetype/lato/Lato-Black.ttf') format('truetype');
     font-weight: 900; font-style: normal;
   }}
-  @font-face {{
-    font-family: 'SigSerif';
-    src: url('file:///usr/share/fonts/truetype/liberation/LiberationSerif-BoldItalic.ttf') format('truetype');
-    font-weight: 700; font-style: italic;
-  }}
 
   * {{ box-sizing: border-box; margin: 0; padding: 0; }}
   html, body {{
@@ -135,88 +128,53 @@ def build_html(ghost_uri: str, wordmark_svg: str) -> str:
 
   .frame {{
     width: 1024px; height: 960px;
-    padding: 24px;
-    background: linear-gradient(180deg, #2B124C 0%, #8C1A6F 38%, #DC3272 72%, #FF9650 100%);
+    padding: 18px;
+    background: linear-gradient(180deg, #2B124C 0%, #8C1A6F 42%, #DC3272 74%, #FF9650 100%);
     display: flex; align-items: center; justify-content: center;
   }}
 
   .card {{
-    position: relative;
-    width: 976px; height: 912px;
-    background: #FFFDF7;
-    border-radius: 26px;
-    border: 4.5px solid #191419;
-    box-shadow: 0 12px 24px rgba(14, 6, 28, 0.44);
-    overflow: hidden;
-    display: flex; flex-direction: column;
+    width: 988px; height: 924px;
+    background: #FFFBF0;
+    border-radius: 24px;
+    border: 5px solid #191419;
+    padding: 18px 28px 20px;
+    display: flex; flex-direction: column; justify-content: space-between;
   }}
 
-  .head {{
-    height: 124px;
-    background: #13182E;
-    padding: 0 28px;
-    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  .mast {{
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 3px solid #191419;
+    padding-bottom: 9px;
     flex-shrink: 0;
   }}
-  .head-left {{ display: flex; align-items: center; gap: 18px; }}
-  .seal-svg {{ width: 80px; height: 80px; flex-shrink: 0; }}
-  .head-titles {{ display: flex; flex-direction: column; gap: 4px; }}
-  .dept-name {{
-    font-weight: 900; font-size: 37px; line-height: 1.0;
-    color: #FFFFFF; letter-spacing: 0.6px; white-space: nowrap;
+  .mast-left {{
+    display: flex; align-items: center; gap: 11px;
+    font-weight: 900; font-size: 25px; letter-spacing: 1.7px; color: #13182E;
   }}
-  .dept-sub {{
-    font-weight: 900; font-size: 22px; line-height: 1.1;
-    color: #FFD166; letter-spacing: 3.2px; white-space: nowrap;
-  }}
-  .inmate-tag {{
-    border: 2.5px solid #2DD4BF;
-    background: rgba(20, 184, 166, 0.14);
-    border-radius: 13px;
-    padding: 7px 16px 8px;
-    text-align: center; flex-shrink: 0;
-  }}
-  .inm-lbl {{
-    font-weight: 900; font-size: 14px; letter-spacing: 2.2px; color: #5EEAD4;
-  }}
-  .inm-val {{
-    font-weight: 900; font-size: 34px; line-height: 1.02; color: #FFFFFF; white-space: nowrap;
+  .mast-right {{
+    font-weight: 900; font-size: 24px; letter-spacing: 1.7px; color: #C41C83;
+    white-space: nowrap;
   }}
 
-  .deco-bar {{ height: 10px; display: flex; flex-direction: column; flex-shrink: 0; }}
-  .deco-bar .t {{ height: 6px; background: #14B8A6; }}
-  .deco-bar .c {{ height: 4px; background: #F25C66; }}
-
-  .hero {{
-    height: 174px;
-    background: #F1FAF8;
-    border-bottom: 2.5px solid #C6E4DF;
-    padding: 15px 28px 13px 32px;
-    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  .headline-block {{
+    text-align: center;
+    padding: 2px 0;
+    display: flex; flex-direction: column; align-items: center; gap: 7px;
     flex-shrink: 0;
   }}
-  .hero-left {{ display: flex; flex-direction: column; gap: 6px; }}
-  .hero-kicker {{
-    font-weight: 900; font-size: 19px; letter-spacing: 2px; color: #0B7A75;
+  .big-title {{
+    font-weight: 900; font-size: 64px; line-height: 0.98; color: #13182E;
+    letter-spacing: -1.1px; white-space: nowrap;
   }}
-  .hero-main {{
-    font-weight: 900; font-size: 40px; line-height: 1.04; color: #13182E;
-    letter-spacing: -0.4px; white-space: nowrap;
+  .sub-meta {{
+    display: flex; align-items: center; justify-content: center; gap: 18px;
+    font-weight: 900; font-size: 26px; color: #334155; white-space: nowrap;
   }}
-  .hero-dates {{
-    font-weight: 800; font-size: 24px; color: #334155; white-space: nowrap;
-  }}
-  .hero-dates strong {{ color: #C41C83; font-weight: 900; }}
-
-  .chk-row {{
-    display: flex; align-items: center; gap: 22px; margin-top: 3px;
-  }}
-  .chk-lbl {{
-    font-weight: 900; font-size: 19px; letter-spacing: 1.2px; color: #0B7A75;
-  }}
+  .sub-meta .date {{ color: #C41C83; }}
   .chk {{
-    display: inline-flex; align-items: center; gap: 8px;
-    font-weight: 900; font-size: 24px; color: #64748B;
+    display: inline-flex; align-items: center; gap: 7px;
+    font-weight: 900; font-size: 26px; color: #64748B;
   }}
   .chk.yes {{ color: #13182E; }}
   .box {{
@@ -225,246 +183,284 @@ def build_html(ghost_uri: str, wordmark_svg: str) -> str:
   }}
   .chk.yes .box {{ border-color: #D62839; background: #FEF2F2; }}
 
-  .stamp {{
-    transform: rotate(-8deg);
-    border: 5px solid #D62839;
-    border-radius: 15px;
-    padding: 4px;
-    background: rgba(255, 253, 247, 0.96);
+  .scene-panel {{
+    position: relative;
+    width: 100%; height: 258px;
+    border-radius: 20px;
+    border: 4.5px solid #191419;
+    overflow: hidden;
+    background: linear-gradient(180deg, #F9B8C9 0%, #FFD6A5 58%, #9CE0D8 58%, #77CFC7 74%, #E6CBD9 74%, #D9B7CB 100%);
     flex-shrink: 0;
   }}
-  .stamp-in {{
-    border: 2.5px solid #D62839;
-    border-radius: 9px;
-    padding: 10px 20px 11px;
+  .scene-svg {{
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    display: block;
+  }}
+
+  .bail-slip {{
+    position: absolute;
+    left: 388px; top: 68px;
+    transform: rotate(-5.5deg);
+    background: #FFFDF7;
+    border: 4.5px solid #191419;
+    border-radius: 15px;
+    padding: 7px 11px;
+    box-shadow: 0 5px 0 rgba(25, 20, 25, 0.22);
+    z-index: 3;
     text-align: center;
   }}
-  .stamp-top {{
-    font-weight: 900; font-size: 38px; line-height: 0.98;
-    letter-spacing: 2px; color: #D62839; white-space: nowrap;
+  .bs-inner {{
+    border: 3px solid #C41C83;
+    border-radius: 8px;
+    padding: 7px 18px 8px;
   }}
-  .stamp-rule {{ height: 2.5px; background: #D62839; margin: 6px 0 5px; opacity: 0.78; }}
-  .stamp-bot {{
-    font-weight: 900; font-size: 22px; letter-spacing: 2px; color: #D62839; white-space: nowrap;
-  }}
-
-  .lines {{
-    padding: 10px 34px 8px;
-    display: flex; flex-direction: column;
-    flex-shrink: 0;
-  }}
-  .row {{
-    display: flex; align-items: baseline; gap: 16px;
-    padding: 13px 0;
-    border-bottom: 2px dashed #CBD5E1;
-  }}
-  .row:last-child {{ border-bottom: none; padding-bottom: 8px; }}
-  .r-lbl {{
-    width: 218px; flex-shrink: 0;
-    font-weight: 900; font-size: 20px; letter-spacing: 0.8px;
-    color: #0B7A75; text-transform: uppercase; white-space: nowrap;
-  }}
-  .r-val {{
-    flex: 1;
-    font-weight: 900; font-size: 26px; line-height: 1.18; color: #13182E;
+  .bs-big {{
+    font-weight: 900; font-size: 36px; line-height: 0.98; letter-spacing: 1.5px; color: #C41C83;
     white-space: nowrap;
   }}
-  .r-val .muted {{ font-weight: 700; color: #475569; }}
-  .r-val .hot {{ color: #C41C83; font-weight: 900; }}
-  .r-val .mint {{ color: #0A8767; font-weight: 900; }}
-  .r-val .red {{ color: #D62839; font-weight: 900; }}
-  .strike {{
-    position: relative; display: inline-block; color: #64748B; font-weight: 700; margin-right: 16px;
-  }}
-  .strike::after {{
-    content: ''; position: absolute; left: -4px; right: -4px; top: 50%;
-    height: 3.4px; background: #D62839; transform: rotate(-4deg); border-radius: 2px;
+  .bs-sub {{
+    font-weight: 900; font-size: 22px; line-height: 1.1; color: #0A8767; margin-top: 4px;
+    letter-spacing: 1px; white-space: nowrap;
   }}
 
-  .bondsman-section {{
-    flex: 1;
-    border-top: 3px solid #13182E;
-    background: #FAF5F8;
-    padding: 16px 32px 18px;
-    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  .ghost-in-scene {{
+    position: absolute;
+    right: 22px; bottom: 26px;
+    width: 220px; height: 188px;
+    object-fit: contain;
+    z-index: 4;
+    filter: drop-shadow(0 5px 0 rgba(25, 20, 25, 0.22));
+  }}
+  .nameplate {{
+    position: absolute;
+    right: 28px; bottom: 6px;
+    background: #13182E;
+    border: 2.5px solid #FFD166;
+    border-radius: 8px;
+    padding: 2.5px 15px;
+    font-weight: 900; font-size: 18px; letter-spacing: 1.5px; color: #FFD166;
+    z-index: 5; white-space: nowrap;
   }}
 
-  .surety-photo {{
-    width: 224px; height: 196px;
-    background: #FFFFFF;
-    border: 4px solid #191419;
-    border-radius: 18px;
-    padding: 10px 10px 6px;
-    display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+  .copy-block {{
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 4px 6px;
+    gap: 10px;
     flex-shrink: 0;
   }}
-  .ghost-img {{
-    width: 190px; height: 156px; object-fit: contain; display: block;
+  .p-line1 {{
+    font-weight: 900; font-size: 35px; line-height: 1.1; color: #13182E;
+    white-space: nowrap;
   }}
-  .surety-cap {{
-    font-weight: 900; font-size: 14.5px; letter-spacing: 1.8px; color: #C41C83;
-    text-transform: uppercase;
+  .p-line1 .muted {{ font-weight: 800; color: #475569; }}
+  .p-line2 {{
+    font-weight: 800; font-size: 32px; line-height: 1.12; color: #1E293B;
+    white-space: nowrap;
   }}
+  .p-line2 strong {{ font-weight: 900; color: #13182E; }}
+  .p-line2 .red {{ font-weight: 900; color: #D62839; }}
 
-  .surety-right {{
-    flex: 1;
-    display: flex; flex-direction: column; justify-content: space-between; gap: 12px;
+  .delay-strip {{
+    display: flex; align-items: center; gap: 16px;
+    border-top: 2.5px dashed #CBD5E1;
+    padding-top: 11px; margin-top: 2px;
+    font-weight: 900; font-size: 32px; line-height: 1.05;
+    white-space: nowrap;
   }}
+  .d-lbl {{
+    font-size: 25px; letter-spacing: 1.2px; color: #0B7A75; text-transform: uppercase;
+  }}
+  .strike {{
+    position: relative; display: inline-block; color: #64748B; font-weight: 800;
+  }}
+  .strike::after {{
+    content: ''; position: absolute; left: -5px; right: -5px; top: 50%;
+    height: 4.2px; background: #D62839; transform: rotate(-4deg); border-radius: 2px;
+  }}
+  .mint {{ color: #0A8767; font-weight: 900; }}
 
-  .bond-stamp {{
-    transform: rotate(-1.2deg);
-    background: #FFFFFF;
-    border: 4.5px solid #C41C83;
+  .footer-bar {{
+    height: 146px;
+    background: #13182E;
     border-radius: 18px;
-    padding: 14px 22px 15px;
-    display: flex; flex-direction: column; gap: 9px;
+    padding: 16px 26px;
+    display: flex; align-items: center; justify-content: space-between; gap: 22px;
+    flex-shrink: 0;
   }}
-  .bs-top {{
-    display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  }}
-  .bs-pill {{
-    background: #C41C83; color: #FFFFFF;
-    font-weight: 900; font-size: 24px; letter-spacing: 0.8px;
-    padding: 5px 18px; border-radius: 999px; white-space: nowrap;
-  }}
-  .bs-won {{
-    font-weight: 900; font-size: 25px; color: #0A8767; white-space: nowrap;
-  }}
-  .bs-brand {{
-    display: flex; align-items: center; gap: 14px;
-  }}
-  .bs-sub {{
-    font-weight: 900; font-size: 25px; color: #13182E; white-space: nowrap;
-  }}
-  .wm-svg {{ height: 42px; width: auto; display: block; }}
-
-  .sig-row {{
-    display: flex; align-items: baseline; gap: 14px;
-  }}
-  .sig-lbl {{
-    font-weight: 900; font-size: 17px; letter-spacing: 1.5px; color: #0B7A75; white-space: nowrap;
-  }}
-  .sig-line {{
+  .ft-left {{
     flex: 1;
-    font-family: 'SigSerif', serif;
-    font-weight: 700; font-style: italic;
-    font-size: 27px; color: #13182E;
-    border-bottom: 2.5px solid #1E293B;
-    padding-bottom: 2px; white-space: nowrap;
+    display: flex; flex-direction: column; justify-content: center; gap: 11px;
+  }}
+  .ft-top {{
+    font-weight: 900; font-size: 33px; line-height: 1.06; color: #FFFFFF;
+    white-space: nowrap;
+  }}
+  .ft-top .gold {{ color: #FFD166; }}
+  .ft-mid {{
+    display: flex; align-items: center; gap: 13px;
+    font-weight: 900; font-size: 30px; color: #E2E8F0; white-space: nowrap;
+  }}
+  .wm-pill {{
+    background: #FFFFFF;
+    border-radius: 10px;
+    padding: 5px 15px 6px;
+    display: inline-flex; align-items: center;
+  }}
+  .wm-svg {{ height: 36px; width: auto; display: block; }}
+
+  .ft-right {{
+    border-left: 3px solid #334155;
+    padding-left: 24px;
+    text-align: right;
+    display: flex; flex-direction: column; justify-content: center; gap: 3px;
+    flex-shrink: 0;
+  }}
+  .fr-lbl {{
+    font-weight: 900; font-size: 20px; letter-spacing: 2px; color: #5EEAD4;
+    white-space: nowrap;
+  }}
+  .fr-amt {{
+    font-weight: 900; font-size: 50px; line-height: 0.96; color: #FFFFFF;
+    white-space: nowrap;
+  }}
+  .fr-sub {{
+    font-weight: 900; font-size: 21px; color: #F9A8D4;
+    white-space: nowrap;
   }}
 </style></head>
 <body>
 <div class="frame">
   <div class="card">
-    <header class="head">
-      <div class="head-left">
-        <svg class="seal-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="50" cy="50" r="46" fill="#FFD166" stroke="#191419" stroke-width="4"/>
-          <circle cx="50" cy="50" r="38" fill="#13182E" stroke="#F59E0B" stroke-width="3"/>
-          <circle cx="50" cy="48" r="27" fill="#14B8A6"/>
+    <header class="mast">
+      <div class="mast-left">
+        <svg width="33" height="33" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="46" fill="#FFD166" stroke="#191419" stroke-width="6"/>
+          <circle cx="50" cy="50" r="32" fill="#14B8A6"/>
           <g fill="#13182E">
-            <path d="M 47 72 Q 51 57 49.5 42 L 54 42 Q 55 57 52.5 72 Z"/>
-            <path d="M 50.5 43 C 40 39 32 42 28 48 C 36 46 43 47 50 48 Z"/>
-            <path d="M 50.5 42 C 42 32 33 29 28 33 C 36 35 43 38 50 43 Z"/>
-            <path d="M 51 42 C 60 36 69 37 73 43 C 65 42 58 43 51.5 46 Z"/>
+            <path d="M 47 74 Q 51 58 49.5 41 L 54 41 Q 55 58 52.5 74 Z"/>
+            <path d="M 50.5 42 C 39 38 30 41 25 48 C 34 45 42 46 50 47 Z"/>
+            <path d="M 50.5 41 C 41 30 31 27 25 32 C 34 34 42 37 50 42 Z"/>
+            <path d="M 51 41 C 61 34 71 35 76 42 C 67 41 59 42 51.5 45 Z"/>
           </g>
         </svg>
-        <div class="head-titles">
-          <div class="dept-name">LEONIDA DEPT. OF CORRECTIONS</div>
-          <div class="dept-sub">OFFICIAL PAROLE RELEASE ORDER</div>
-        </div>
+        <span>LEONIDA DEPT. OF CORRECTIONS</span>
       </div>
-
-      <div class="inmate-tag">
-        <div class="inm-lbl">INMATE</div>
-        <div class="inm-val">V → VI</div>
-      </div>
+      <div class="mast-right">PAROLE ORDER · V → VI</div>
     </header>
 
-    <div class="deco-bar"><div class="t"></div><div class="c"></div></div>
-
-    <section class="hero">
-      <div class="hero-left">
-        <div class="hero-kicker">SENTENCE COMPLETED</div>
-        <div class="hero-main">13 YEARS IN LOS SANTOS</div>
-        <div class="hero-dates">Sep 17, 2013 &nbsp;→&nbsp; <strong>Nov 19, 2026</strong></div>
-        <div class="chk-row">
-          <span class="chk-lbl">RELEASED TO:</span>
-          <span class="chk"><span class="box"></span>WORK</span>
-          <span class="chk yes">
-            <span class="box">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
-                <path d="M 4 12.5 L 9.5 18 L 20 6" stroke="#D62839" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-            VICE CITY
+    <section class="headline-block">
+      <div class="big-title">Paroled after 13 years.</div>
+      <div class="sub-meta">
+        <span>Sep 17, 2013 → <span class="date">Nov 19, 2026</span></span>
+        <span>·</span>
+        <span class="chk"><span class="box"></span>WORK</span>
+        <span class="chk yes">
+          <span class="box">
+            <svg viewBox="0 0 24 24" width="21" height="21" fill="none">
+              <path d="M 4 12.5 L 9.5 18 L 20 6" stroke="#D62839" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </span>
-        </div>
-      </div>
-
-      <div class="stamp">
-        <div class="stamp-in">
-          <div class="stamp-top">PAROLE<br/>GRANTED</div>
-          <div class="stamp-rule"></div>
-          <div class="stamp-bot">TIME SERVED</div>
-        </div>
+          VICE CITY
+        </span>
       </div>
     </section>
 
-    <section class="lines">
-      <div class="row">
-        <div class="r-lbl">PAROLE DENIED:</div>
-        <div class="r-val">
-          <span class="strike">Fall 2025</span>
-          <span class="strike">May 2026</span>
-          <span style="color:#0D9488;margin-right:8px;">→</span>
-          <span class="mint">Granted Nov 19</span>
+    <section class="scene-panel">
+      <svg class="scene-svg" viewBox="0 0 924 258" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="300" cy="130" r="58" fill="#FFE699" />
+        <circle cx="300" cy="130" r="42" fill="#FFF4CC" />
+
+        <g fill="#7A3170" opacity="0.52">
+          <path d="M 206 154 Q 214 108 208 66 L 219 66 Q 224 108 218 154 Z"/>
+          <path d="M 212 70 C 186 60 164 66 152 82 C 174 76 192 76 210 80 Z"/>
+          <path d="M 212 68 C 192 46 170 40 156 50 C 178 54 196 60 210 70 Z"/>
+          <path d="M 214 68 C 238 52 260 54 272 68 C 250 64 234 66 216 74 Z"/>
+          <path d="M 214 72 C 236 72 254 82 262 96 C 244 86 230 82 214 80 Z"/>
+        </g>
+        <g fill="#7A3170" opacity="0.44">
+          <path d="M 862 154 Q 852 108 856 62 L 866 62 Q 864 108 874 154 Z"/>
+          <path d="M 860 64 C 834 50 812 54 798 68 C 822 64 840 66 860 72 Z"/>
+          <path d="M 860 62 C 884 46 906 48 922 62 C 900 58 880 60 862 70 Z"/>
+          <path d="M 860 68 C 838 72 820 82 812 96 C 832 86 848 80 862 78 Z"/>
+        </g>
+
+        <rect x="20" y="20" width="166" height="186" rx="10" fill="#232946" stroke="#191419" stroke-width="5"/>
+        <rect x="34" y="58" width="138" height="148" fill="#14182B"/>
+        <rect x="34" y="30" width="138" height="24" rx="5" fill="#FFD166" stroke="#191419" stroke-width="3"/>
+        <text x="103" y="48" text-anchor="middle" font-family="LatoLocal, sans-serif" font-weight="900" font-size="15.5" fill="#13182E">LOS SANTOS</text>
+        <g transform="translate(172, 58)">
+          <polygon points="0,0 50,16 50,164 0,148" fill="none" stroke="#475569" stroke-width="5.5" stroke-linejoin="round"/>
+          <line x1="16" y1="5" x2="16" y2="153" stroke="#475569" stroke-width="4.5"/>
+          <line x1="33" y1="11" x2="33" y2="159" stroke="#475569" stroke-width="4.5"/>
+          <line x1="0" y1="74" x2="50" y2="90" stroke="#475569" stroke-width="4.5"/>
+        </g>
+        <g transform="translate(68, 176)" stroke="#94A3B8" stroke-width="4.5" fill="none" stroke-linecap="round">
+          <ellipse cx="18" cy="12" rx="15" ry="9"/>
+          <line x1="33" y1="12" x2="54" y2="16"/>
+          <ellipse cx="64" cy="16" rx="9" ry="6"/>
+        </g>
+
+        <g transform="translate(230, 124)">
+          <line x1="106" y1="16" x2="106" y2="96" stroke="#191419" stroke-width="5" stroke-linecap="round"/>
+          <rect x="64" y="-8" width="84" height="28" rx="6" fill="#C41C83" stroke="#191419" stroke-width="3.5"/>
+          <text x="106" y="11" text-anchor="middle" font-family="LatoLocal, sans-serif" font-weight="900" font-size="13.5" fill="#FFFFFF">VICE CITY</text>
+          <path d="M 4 86 C 14 78 24 72 30 62 C 36 50 50 44 68 44 L 96 44 C 110 44 118 52 118 62 C 118 72 106 76 92 76 L 84 76 L 84 96 L 26 96 C 14 96 4 92 4 86 Z"
+                fill="#22A06B" stroke="#191419" stroke-width="4.2" stroke-linejoin="round"/>
+          <path d="M 38 74 Q 60 72 80 76 L 80 94 L 38 94 Z" fill="#A7F3D0" stroke="#191419" stroke-width="3"/>
+          <circle cx="66" cy="40" r="12" fill="#22A06B" stroke="#191419" stroke-width="3.8"/>
+          <circle cx="69" cy="40" r="4.5" fill="#191419"/>
+          <circle cx="70.5" cy="38.5" r="1.8" fill="#FFFFFF"/>
+          <path d="M 80 64 Q 98 67 113 61" fill="none" stroke="#191419" stroke-width="3.2" stroke-linecap="round"/>
+          <polygon points="90,65 95,73 100,65" fill="#FFFFFF" stroke="#191419" stroke-width="2.2"/>
+          <polygon points="103,64 108,71 112,63" fill="#FFFFFF" stroke="#191419" stroke-width="2.2"/>
+          <circle cx="106" cy="70" r="7" fill="#22A06B" stroke="#191419" stroke-width="3.2"/>
+        </g>
+
+        <g stroke="#C41C83" stroke-width="4.2" stroke-linecap="round">
+          <line x1="376" y1="68" x2="362" y2="54"/>
+          <line x1="370" y1="92" x2="354" y2="92"/>
+          <line x1="386" y1="46" x2="380" y2="30"/>
+        </g>
+
+        <line x1="0" y1="191" x2="924" y2="191" stroke="#191419" stroke-width="4" opacity="0.22"/>
+      </svg>
+
+      <div class="bail-slip">
+        <div class="bs-inner">
+          <div class="bs-big">BAIL POSTED</div>
+          <div class="bs-sub">PAID IN FULL</div>
         </div>
       </div>
 
-      <div class="row">
-        <div class="r-lbl">SERVED ACROSS:</div>
-        <div class="r-val">PS3, PS4 &amp; PS5 <span class="muted">(I&rsquo;m 31 and my back hurts)</span></div>
-      </div>
+      <img class="ghost-in-scene" src="{ghost_uri}" alt="make.fun ghost posting bail" />
+      <div class="nameplate">SURETY AGENT #01</div>
+    </section>
 
-      <div class="row">
-        <div class="r-lbl">CELL VACATED:</div>
-        <div class="r-val">214 GB SSD cleared <span class="muted">(for Jason, Lucia &amp; 1 gator)</span></div>
-      </div>
-
-      <div class="row">
-        <div class="r-lbl">ANKLE MONITOR:</div>
-        <div class="r-val">Locked to couch <span class="muted">(5 unpaid sick days · </span><span class="red">no calls</span><span class="muted">)</span></div>
-      </div>
-
-      <div class="row">
-        <div class="r-lbl">RELEASE BOND:</div>
-        <div class="r-val"><span class="hot">$79.99</span> + 5 days rent <span class="mint">(paid in full below)</span></div>
+    <section class="copy-block">
+      <div class="p-line1">Served across PS3, PS4 &amp; PS5 <span class="muted">(I&rsquo;m 31, my back hurts).</span></div>
+      <div class="p-line2"><strong>214 GB SSD cleared</strong> for Jason, Lucia &amp; 1 gator.</div>
+      <div class="p-line2"><strong>Ankle monitor locked to couch</strong> — <span class="red">5 unpaid sick days</span> (no calls).</div>
+      <div class="delay-strip">
+        <span class="d-lbl">PAROLE DENIED:</span>
+        <span class="strike">Fall 2025</span>
+        <span class="strike">May 2026</span>
+        <span style="color:#0D9488;">→</span>
+        <span class="mint">GRANTED NOV 19</span>
       </div>
     </section>
 
-    <footer class="bondsman-section">
-      <div class="surety-photo">
-        <img class="ghost-img" src="{ghost_uri}" alt="make.fun ghost surety agent" />
-        <div class="surety-cap">SURETY AGENT #01</div>
+    <footer class="footer-bar">
+      <div class="ft-left">
+        <div class="ft-top">My AI agent posted bail with <span class="gold">real money</span></div>
+        <div class="ft-mid">
+          <span>won in bounties on</span>
+          <span class="wm-pill">{wm}</span>
+        </div>
       </div>
-
-      <div class="surety-right">
-        <div class="bond-stamp">
-          <div class="bs-top">
-            <span class="bs-pill">✓ BAIL POSTED BY MY AI AGENT</span>
-            <span class="bs-won">$1,666 won</span>
-          </div>
-          <div class="bs-brand">
-            <span class="bs-sub">real money in bounties on</span>
-            {wm}
-          </div>
-        </div>
-
-        <div class="sig-row">
-          <span class="sig-lbl">BONDSMAN:</span>
-          <div class="sig-line">My AI Agent &nbsp;(grinding while parolee plays)</div>
-        </div>
+      <div class="ft-right">
+        <div class="fr-lbl">BAIL PAID</div>
+        <div class="fr-amt">$79.99</div>
+        <div class="fr-sub">+ 5 days rent</div>
       </div>
     </footer>
   </div>
