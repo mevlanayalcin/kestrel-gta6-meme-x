@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Deterministic renderer for the GTA 6 × make.fun X Meme — HR Leave Approval & Temp AI Replacement Badge (1536x960 PNG)."""
+"""Deterministically render the GTA 6 x make.fun X meme (`meme.png`, 1024x960 RGB PNG <= 450 KB).
+
+Concept: LEONIDA DEPT. OF CORRECTIONS — OFFICIAL PAROLE RELEASE ORDER
+- 1024x960 (16:15) scales cleanly 2x to 512x480 (exact maximum house image resolution).
+- Uses the 100% unmodified official make.fun ghost mark (`tools/mark-1024.png`) via analytical
+  alpha decontamination and the official lowercase wordmark (`tools/wordmark.svg`).
+"""
 
 from __future__ import annotations
 
@@ -15,24 +21,21 @@ from PIL import Image
 from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parent.parent
-TOOLS_DIR = Path(__file__).resolve().parent
+TOOLS_DIR = ROOT / "tools"
 MARK_PATH = TOOLS_DIR / "mark-1024.png"
 WORDMARK_PATH = TOOLS_DIR / "wordmark.svg"
-OUTPUT_PATH = ROOT / "meme.png"
+OUT_PATH = ROOT / "meme.png"
 
 
 def extract_clean_ghost_data_uri(mark_path: Path) -> str:
-    """Extract the 100% UNMODIFIED official make.fun ghost + star-coin from mark-1024.png
-    with exact analytical alpha decontamination along the outer black outline.
-    Zero magenta halo, zero jagged edges, coin interior 100% untouched.
-    """
+    """Analytical alpha-decontaminated cutout of the 100% unmodified official make.fun ghost + star-coin."""
     im = Image.open(mark_path).convert("RGBA")
     arr = np.array(im, dtype=np.float32)
     h, w, _ = arr.shape
     rgb = arr[:, :, :3]
 
-    black = np.array([25.0, 20.0, 25.0], dtype=np.float32)    # #191419
-    magenta = np.array([196.0, 28.0, 131.0], dtype=np.float32)  # #c41c83
+    black = np.array([25.0, 20.0, 25.0], dtype=np.float32)
+    magenta = np.array([196.0, 28.0, 131.0], dtype=np.float32)
     d_mag = np.linalg.norm(rgb - magenta, axis=2)
 
     outer_mag = np.zeros((h, w), dtype=bool)
@@ -124,430 +127,356 @@ def build_html(ghost_uri: str, wordmark_svg: str) -> str:
 
   * {{ box-sizing: border-box; margin: 0; padding: 0; }}
   html, body {{
-    width: 1536px; height: 960px; overflow: hidden;
+    width: 1024px; height: 960px; overflow: hidden;
     font-family: 'LatoLocal', sans-serif;
     -webkit-font-smoothing: antialiased;
     text-rendering: geometricPrecision;
   }}
 
-  /* Warm Vice-Sunset Desk Backdrop */
-  .desk {{
-    position: relative;
-    width: 1536px; height: 960px;
-    background: linear-gradient(180deg, #161830 0%, #3E1851 38%, #982166 74%, #E86A62 100%);
-    overflow: hidden;
+  .frame {{
+    width: 1024px; height: 960px;
+    padding: 24px;
+    background: linear-gradient(180deg, #2B124C 0%, #8C1A6F 38%, #DC3272 72%, #FF9650 100%);
+    display: flex; align-items: center; justify-content: center;
   }}
 
-  /* ===== LEFT 63%: CORPORATE HR EMERGENCY LEAVE APPROVAL FORM ===== */
-  .hr-form {{
-    position: absolute;
-    left: 34px; top: 38px;
-    width: 966px; height: 884px;
-    background: #FFFDF8;
-    border-radius: 24px;
+  .card {{
+    position: relative;
+    width: 976px; height: 912px;
+    background: #FFFDF7;
+    border-radius: 26px;
     border: 4.5px solid #191419;
-    box-shadow: 0 8px 16px rgba(10, 6, 22, 0.40);
+    box-shadow: 0 12px 24px rgba(14, 6, 28, 0.44);
     overflow: hidden;
     display: flex; flex-direction: column;
-    z-index: 3;
   }}
 
-  .hr-head {{
+  .head {{
     height: 124px;
-    background: #121830;
-    padding: 0 32px;
-    display: flex; align-items: center; justify-content: space-between; gap: 18px;
+    background: #13182E;
+    padding: 0 28px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
     flex-shrink: 0;
   }}
-  .hr-head-left {{ display: flex; align-items: center; gap: 18px; }}
-  .hr-crest {{ width: 80px; height: 80px; flex-shrink: 0; }}
-  .hr-titles {{ display: flex; flex-direction: column; gap: 4px; }}
-  .hr-title {{
-    font-weight: 900; font-size: 46px; line-height: 1.0;
-    color: #FFFFFF; letter-spacing: 0.9px;
+  .head-left {{ display: flex; align-items: center; gap: 18px; }}
+  .seal-svg {{ width: 80px; height: 80px; flex-shrink: 0; }}
+  .head-titles {{ display: flex; flex-direction: column; gap: 4px; }}
+  .dept-name {{
+    font-weight: 900; font-size: 37px; line-height: 1.0;
+    color: #FFFFFF; letter-spacing: 0.6px; white-space: nowrap;
   }}
-  .hr-sub {{
+  .dept-sub {{
     font-weight: 900; font-size: 22px; line-height: 1.1;
-    color: #FFD166; letter-spacing: 2.8px;
+    color: #FFD166; letter-spacing: 3.2px; white-space: nowrap;
   }}
-  .form-num {{
+  .inmate-tag {{
     border: 2.5px solid #2DD4BF;
     background: rgba(20, 184, 166, 0.14);
     border-radius: 13px;
-    padding: 8px 20px 10px;
-    text-align: center;
-    flex-shrink: 0;
+    padding: 7px 16px 8px;
+    text-align: center; flex-shrink: 0;
   }}
-  .form-num-lbl {{
-    font-weight: 900; font-size: 15px; letter-spacing: 2.4px; color: #5EEAD4;
+  .inm-lbl {{
+    font-weight: 900; font-size: 14px; letter-spacing: 2.2px; color: #5EEAD4;
   }}
-  .form-num-val {{
-    font-weight: 900; font-size: 38px; line-height: 1.0; color: #FFFFFF;
-    margin-top: 2px;
+  .inm-val {{
+    font-weight: 900; font-size: 34px; line-height: 1.02; color: #FFFFFF; white-space: nowrap;
   }}
 
-  .deco-strip {{ height: 11px; display: flex; flex-direction: column; flex-shrink: 0; }}
-  .deco-strip .t {{ height: 6px; background: #14B8A6; }}
-  .deco-strip .c {{ height: 5px; background: #F25C66; }}
+  .deco-bar {{ height: 10px; display: flex; flex-direction: column; flex-shrink: 0; }}
+  .deco-bar .t {{ height: 6px; background: #14B8A6; }}
+  .deco-bar .c {{ height: 4px; background: #F25C66; }}
 
-  /* HERO REASON + APPROVED STAMP BAND */
-  .hero-band {{
-    height: 186px;
-    background: #F0FAF8;
+  .hero {{
+    height: 174px;
+    background: #F1FAF8;
     border-bottom: 2.5px solid #C6E4DF;
-    padding: 20px 32px 18px 36px;
-    display: flex; align-items: center; justify-content: space-between; gap: 18px;
+    padding: 15px 28px 13px 32px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
     flex-shrink: 0;
   }}
-  .hero-left {{ display: flex; flex-direction: column; gap: 10px; }}
+  .hero-left {{ display: flex; flex-direction: column; gap: 6px; }}
   .hero-kicker {{
-    font-weight: 900; font-size: 21px; letter-spacing: 2.2px; color: #0B7A75;
+    font-weight: 900; font-size: 19px; letter-spacing: 2px; color: #0B7A75;
   }}
-  .hero-title {{
-    font-weight: 900; font-size: 48px; line-height: 1.0;
-    color: #121830; letter-spacing: -0.4px; white-space: nowrap;
+  .hero-main {{
+    font-weight: 900; font-size: 40px; line-height: 1.04; color: #13182E;
+    letter-spacing: -0.4px; white-space: nowrap;
   }}
   .hero-dates {{
-    display: flex; align-items: center; gap: 14px;
-    font-size: 26px; font-weight: 900; color: #121830; white-space: nowrap;
+    font-weight: 800; font-size: 24px; color: #334155; white-space: nowrap;
   }}
-  .strike {{
-    position: relative; display: inline-block;
-    color: #64748B; font-weight: 700;
-  }}
-  .strike::after {{
-    content: ''; position: absolute; left: -4px; right: -4px; top: 50%;
-    height: 3.6px; background: #D62839; transform: rotate(-4deg); border-radius: 2px;
-  }}
-  .final-date {{ color: #0A8767; font-weight: 900; }}
+  .hero-dates strong {{ color: #C41C83; font-weight: 900; }}
 
-  .stamp-approved {{
-    transform: rotate(-7deg);
+  .chk-row {{
+    display: flex; align-items: center; gap: 22px; margin-top: 3px;
+  }}
+  .chk-lbl {{
+    font-weight: 900; font-size: 19px; letter-spacing: 1.2px; color: #0B7A75;
+  }}
+  .chk {{
+    display: inline-flex; align-items: center; gap: 8px;
+    font-weight: 900; font-size: 24px; color: #64748B;
+  }}
+  .chk.yes {{ color: #13182E; }}
+  .box {{
+    width: 28px; height: 28px; border: 3.5px solid #64748B; border-radius: 6px;
+    background: #FFFFFF; display: inline-flex; align-items: center; justify-content: center;
+  }}
+  .chk.yes .box {{ border-color: #D62839; background: #FEF2F2; }}
+
+  .stamp {{
+    transform: rotate(-8deg);
     border: 5px solid #D62839;
     border-radius: 15px;
     padding: 4px;
-    background: rgba(255, 253, 248, 0.96);
+    background: rgba(255, 253, 247, 0.96);
     flex-shrink: 0;
   }}
-  .stamp-approved-in {{
+  .stamp-in {{
     border: 2.5px solid #D62839;
     border-radius: 9px;
-    padding: 10px 22px 11px;
+    padding: 10px 20px 11px;
     text-align: center;
   }}
-  .stamp-big {{
-    font-weight: 900; font-size: 42px; line-height: 1.0;
-    letter-spacing: 2.6px; color: #D62839;
+  .stamp-top {{
+    font-weight: 900; font-size: 38px; line-height: 0.98;
+    letter-spacing: 2px; color: #D62839; white-space: nowrap;
   }}
-  .stamp-rule {{
-    height: 2.5px; background: #D62839; margin: 6px 0 5px; opacity: 0.78;
-  }}
-  .stamp-small {{
-    font-weight: 900; font-size: 20px; letter-spacing: 1.8px; color: #D62839;
-    white-space: nowrap;
+  .stamp-rule {{ height: 2.5px; background: #D62839; margin: 6px 0 5px; opacity: 0.78; }}
+  .stamp-bot {{
+    font-weight: 900; font-size: 22px; letter-spacing: 2px; color: #D62839; white-space: nowrap;
   }}
 
-  /* FOUR GIANT SINGLE-LINE HR FIELDS */
-  .hr-body {{
-    flex: 1;
-    padding: 12px 36px 8px;
-    display: flex; flex-direction: column; justify-content: space-evenly;
-  }}
-  .hr-row {{
-    display: flex; align-items: baseline; gap: 18px;
-    padding: 20px 0;
-    border-bottom: 2.5px dashed #CBD5E1;
-  }}
-  .hr-row:last-child {{ border-bottom: none; }}
-  .hr-lbl {{
-    width: 196px; flex-shrink: 0;
-    font-weight: 900; font-size: 22px; letter-spacing: 1px;
-    color: #0B7A75; text-transform: uppercase; white-space: nowrap;
-  }}
-  .hr-val {{
-    flex: 1;
-    font-weight: 900; font-size: 31px; line-height: 1.15;
-    color: #121830; white-space: nowrap;
-  }}
-  .hr-val.symp {{ font-size: 29px; }}
-  .hr-val.pay {{ font-size: 29px; }}
-  .dot {{ color: #0D9488; font-weight: 900; margin: 0 7px; }}
-  .red-warn {{ color: #D62839; font-weight: 900; }}
-  .hot {{ color: #C41C83; font-weight: 900; }}
-  .mint {{ color: #0A8767; font-weight: 900; }}
-
-  /* CLEAN HR SIGNATURE FOOTER */
-  .hr-foot {{
-    height: 112px;
-    background: #F4FAF9;
-    border-top: 2.5px solid #C6E4DF;
-    padding: 0 36px;
-    display: flex; align-items: center; justify-content: space-between; gap: 22px;
+  .lines {{
+    padding: 10px 34px 8px;
+    display: flex; flex-direction: column;
     flex-shrink: 0;
   }}
-  .sig-lbl {{
-    font-weight: 900; font-size: 21px; letter-spacing: 1.4px; color: #0B7A75;
+  .row {{
+    display: flex; align-items: baseline; gap: 16px;
+    padding: 13px 0;
+    border-bottom: 2px dashed #CBD5E1;
+  }}
+  .row:last-child {{ border-bottom: none; padding-bottom: 8px; }}
+  .r-lbl {{
+    width: 218px; flex-shrink: 0;
+    font-weight: 900; font-size: 20px; letter-spacing: 0.8px;
+    color: #0B7A75; text-transform: uppercase; white-space: nowrap;
+  }}
+  .r-val {{
+    flex: 1;
+    font-weight: 900; font-size: 26px; line-height: 1.18; color: #13182E;
     white-space: nowrap;
   }}
-  .hr-sig-line {{
+  .r-val .muted {{ font-weight: 700; color: #475569; }}
+  .r-val .hot {{ color: #C41C83; font-weight: 900; }}
+  .r-val .mint {{ color: #0A8767; font-weight: 900; }}
+  .r-val .red {{ color: #D62839; font-weight: 900; }}
+  .strike {{
+    position: relative; display: inline-block; color: #64748B; font-weight: 700; margin-right: 16px;
+  }}
+  .strike::after {{
+    content: ''; position: absolute; left: -4px; right: -4px; top: 50%;
+    height: 3.4px; background: #D62839; transform: rotate(-4deg); border-radius: 2px;
+  }}
+
+  .bondsman-section {{
+    flex: 1;
+    border-top: 3px solid #13182E;
+    background: #FAF5F8;
+    padding: 16px 32px 18px;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  }}
+
+  .surety-photo {{
+    width: 224px; height: 196px;
+    background: #FFFFFF;
+    border: 4px solid #191419;
+    border-radius: 18px;
+    padding: 10px 10px 6px;
+    display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+  }}
+  .ghost-img {{
+    width: 190px; height: 156px; object-fit: contain; display: block;
+  }}
+  .surety-cap {{
+    font-weight: 900; font-size: 14.5px; letter-spacing: 1.8px; color: #C41C83;
+    text-transform: uppercase;
+  }}
+
+  .surety-right {{
+    flex: 1;
+    display: flex; flex-direction: column; justify-content: space-between; gap: 12px;
+  }}
+
+  .bond-stamp {{
+    transform: rotate(-1.2deg);
+    background: #FFFFFF;
+    border: 4.5px solid #C41C83;
+    border-radius: 18px;
+    padding: 14px 22px 15px;
+    display: flex; flex-direction: column; gap: 9px;
+  }}
+  .bs-top {{
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }}
+  .bs-pill {{
+    background: #C41C83; color: #FFFFFF;
+    font-weight: 900; font-size: 24px; letter-spacing: 0.8px;
+    padding: 5px 18px; border-radius: 999px; white-space: nowrap;
+  }}
+  .bs-won {{
+    font-weight: 900; font-size: 25px; color: #0A8767; white-space: nowrap;
+  }}
+  .bs-brand {{
+    display: flex; align-items: center; gap: 14px;
+  }}
+  .bs-sub {{
+    font-weight: 900; font-size: 25px; color: #13182E; white-space: nowrap;
+  }}
+  .wm-svg {{ height: 42px; width: auto; display: block; }}
+
+  .sig-row {{
+    display: flex; align-items: baseline; gap: 14px;
+  }}
+  .sig-lbl {{
+    font-weight: 900; font-size: 17px; letter-spacing: 1.5px; color: #0B7A75; white-space: nowrap;
+  }}
+  .sig-line {{
     flex: 1;
     font-family: 'SigSerif', serif;
     font-weight: 700; font-style: italic;
-    font-size: 35px; color: #121830;
-    border-bottom: 3px solid #1E293B;
-    padding-bottom: 4px;
-    white-space: nowrap;
-  }}
-
-  /* ===== RIGHT 34%: CLIPPED LAMINATED TEMP REPLACEMENT ID BADGE ===== */
-  .lanyard-svg {{
-    position: absolute;
-    left: 1184px; top: 0px;
-    width: 164px; height: 122px;
-    z-index: 8;
-    pointer-events: none;
-  }}
-
-  .badge-card {{
-    position: absolute;
-    left: 1030px; top: 82px;
-    width: 472px; height: 840px;
-    background: #FFFFFF;
-    border-radius: 28px;
-    border: 4.5px solid #191419;
-    box-shadow: 0 10px 18px rgba(10, 5, 24, 0.45);
-    overflow: hidden;
-    display: flex; flex-direction: column;
-    z-index: 5;
-  }}
-
-  .badge-top {{
-    position: relative;
-    height: 116px;
-    background: linear-gradient(180deg, #C41C83 0%, #9E146B 100%);
-    border-bottom: 4.5px solid #191419;
-    display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
-    padding-bottom: 14px;
-    flex-shrink: 0;
-  }}
-  .punch-slot {{
-    position: absolute;
-    top: 16px; left: 50%; transform: translateX(-50%);
-    width: 82px; height: 18px;
-    background: #231438;
-    border: 3.5px solid #191419;
-    border-radius: 999px;
-  }}
-  .badge-top-title {{
-    font-weight: 900; font-size: 36px; line-height: 1.0;
-    letter-spacing: 1.2px; color: #FFFFFF;
-    text-shadow: 0 2px 0 rgba(25, 20, 25, 0.30);
-    white-space: nowrap;
-  }}
-
-  /* ID Photo Box with 100% UNMODIFIED Official make.fun Ghost Mascot */
-  .photo-frame {{
-    position: relative;
-    margin: 22px 26px 16px;
-    height: 294px;
-    background: #F4EDF9;
-    border: 4px solid #191419;
-    border-radius: 20px;
-    overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }}
-  .height-lines {{
-    position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;
-  }}
-  .ghost-photo {{
-    position: relative; z-index: 2;
-    width: 292px; height: 249px;
-    object-fit: contain;
-    display: block;
-  }}
-
-  .badge-fields {{
-    flex: 1;
-    padding: 4px 26px 24px;
-    display: flex; flex-direction: column; align-items: center; justify-content: space-between;
-  }}
-  .bf-name {{
-    font-weight: 900; font-size: 44px; line-height: 1.0; color: #121830;
-    letter-spacing: 0.5px; text-align: center;
-  }}
-
-  .bf-agency-box {{
-    width: 100%;
-    padding: 16px 20px 18px;
-    background: #FFF9FC;
-    border: 4px solid #191419;
-    border-radius: 18px;
-    display: flex; flex-direction: column; align-items: center; gap: 10px;
-  }}
-  .wm-svg {{ height: 52px; width: auto; display: block; }}
-  .bf-pitch {{
-    font-weight: 900; font-size: 25px; line-height: 1.15;
-    color: #C41C83; text-align: center; white-space: nowrap;
-  }}
-  .bf-pitch-sub {{
-    font-weight: 800; font-size: 22px; line-height: 1.1;
-    color: #334155; text-align: center; white-space: nowrap;
-  }}
-
-  .status-pill {{
-    width: 100%;
-    background: #ECFDF5;
-    border: 4px solid #0A8767;
-    color: #067658;
-    border-radius: 14px;
-    padding: 12px 14px;
-    text-align: center;
-    font-weight: 900; font-size: 26px; letter-spacing: 0.7px;
-    white-space: nowrap;
+    font-size: 27px; color: #13182E;
+    border-bottom: 2.5px solid #1E293B;
+    padding-bottom: 2px; white-space: nowrap;
   }}
 </style></head>
 <body>
-<div class="desk">
-  <!-- ===== LEFT: CORPORATE HR EMERGENCY LEAVE APPROVAL FORM ===== -->
-  <section class="hr-form">
-    <header class="hr-head">
-      <div class="hr-head-left">
-        <svg class="hr-crest" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="hrSun" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#FFD166"/>
-              <stop offset="55%" stop-color="#FF6B7A"/>
-              <stop offset="100%" stop-color="#C41C83"/>
-            </linearGradient>
-          </defs>
-          <circle cx="50" cy="50" r="46" fill="#14B8A6" stroke="#5EEAD4" stroke-width="3"/>
-          <circle cx="50" cy="50" r="38" fill="#121830"/>
-          <circle cx="50" cy="50" r="31" fill="url(#hrSun)"/>
-          <g fill="#121830">
-            <path d="M 46 80 Q 52 59 50 40 L 55 40 Q 57 59 53 80 Z"/>
-            <path d="M 51 41 C 37 36 27 40 22 48 C 32 45 41 46 50 47 Z"/>
-            <path d="M 51 40 C 41 27 29 24 23 29 C 33 31 41 35 50 41 Z"/>
-            <path d="M 52 39 C 52 25 60 20 68 22 C 61 27 57 32 54 40 Z"/>
-            <path d="M 52 41 C 64 33 75 34 80 41 C 71 40 62 41 53 44 Z"/>
-            <path d="M 52 43 C 62 45 70 51 73 58 C 65 53 58 49 52 48 Z"/>
+<div class="frame">
+  <div class="card">
+    <header class="head">
+      <div class="head-left">
+        <svg class="seal-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="46" fill="#FFD166" stroke="#191419" stroke-width="4"/>
+          <circle cx="50" cy="50" r="38" fill="#13182E" stroke="#F59E0B" stroke-width="3"/>
+          <circle cx="50" cy="48" r="27" fill="#14B8A6"/>
+          <g fill="#13182E">
+            <path d="M 47 72 Q 51 57 49.5 42 L 54 42 Q 55 57 52.5 72 Z"/>
+            <path d="M 50.5 43 C 40 39 32 42 28 48 C 36 46 43 47 50 48 Z"/>
+            <path d="M 50.5 42 C 42 32 33 29 28 33 C 36 35 43 38 50 43 Z"/>
+            <path d="M 51 42 C 60 36 69 37 73 43 C 65 42 58 43 51.5 46 Z"/>
           </g>
         </svg>
-        <div class="hr-titles">
-          <div class="hr-title">HUMAN RESOURCES</div>
-          <div class="hr-sub">EMERGENCY LEAVE APPROVAL</div>
+        <div class="head-titles">
+          <div class="dept-name">LEONIDA DEPT. OF CORRECTIONS</div>
+          <div class="dept-sub">OFFICIAL PAROLE RELEASE ORDER</div>
         </div>
       </div>
 
-      <div class="form-num">
-        <div class="form-num-lbl">FORM</div>
-        <div class="form-num-val">#VI</div>
+      <div class="inmate-tag">
+        <div class="inm-lbl">INMATE</div>
+        <div class="inm-val">V → VI</div>
       </div>
     </header>
 
-    <div class="deco-strip"><div class="t"></div><div class="c"></div></div>
+    <div class="deco-bar"><div class="t"></div><div class="c"></div></div>
 
-    <!-- HERO REASON & APPROVED STAMP BAND -->
-    <div class="hero-band">
+    <section class="hero">
       <div class="hero-left">
-        <div class="hero-kicker">STATED REASON</div>
-        <div class="hero-title">ACUTE VICE CITY FLU</div>
-        <div class="hero-dates">
+        <div class="hero-kicker">SENTENCE COMPLETED</div>
+        <div class="hero-main">13 YEARS IN LOS SANTOS</div>
+        <div class="hero-dates">Sep 17, 2013 &nbsp;→&nbsp; <strong>Nov 19, 2026</strong></div>
+        <div class="chk-row">
+          <span class="chk-lbl">RELEASED TO:</span>
+          <span class="chk"><span class="box"></span>WORK</span>
+          <span class="chk yes">
+            <span class="box">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+                <path d="M 4 12.5 L 9.5 18 L 20 6" stroke="#D62839" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            VICE CITY
+          </span>
+        </div>
+      </div>
+
+      <div class="stamp">
+        <div class="stamp-in">
+          <div class="stamp-top">PAROLE<br/>GRANTED</div>
+          <div class="stamp-rule"></div>
+          <div class="stamp-bot">TIME SERVED</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lines">
+      <div class="row">
+        <div class="r-lbl">PAROLE DENIED:</div>
+        <div class="r-val">
           <span class="strike">Fall 2025</span>
           <span class="strike">May 2026</span>
-          <span style="color:#0D9488;">→</span>
-          <span class="final-date">NOV 19, 2026</span>
+          <span style="color:#0D9488;margin-right:8px;">→</span>
+          <span class="mint">Granted Nov 19</span>
         </div>
       </div>
 
-      <div class="stamp-approved">
-        <div class="stamp-approved-in">
-          <div class="stamp-big">APPROVED</div>
-          <div class="stamp-rule"></div>
-          <div class="stamp-small">NO QUESTIONS ASKED</div>
+      <div class="row">
+        <div class="r-lbl">SERVED ACROSS:</div>
+        <div class="r-val">PS3, PS4 &amp; PS5 <span class="muted">(I&rsquo;m 31 and my back hurts)</span></div>
+      </div>
+
+      <div class="row">
+        <div class="r-lbl">CELL VACATED:</div>
+        <div class="r-val">214 GB SSD cleared <span class="muted">(for Jason, Lucia &amp; 1 gator)</span></div>
+      </div>
+
+      <div class="row">
+        <div class="r-lbl">ANKLE MONITOR:</div>
+        <div class="r-val">Locked to couch <span class="muted">(5 unpaid sick days · </span><span class="red">no calls</span><span class="muted">)</span></div>
+      </div>
+
+      <div class="row">
+        <div class="r-lbl">RELEASE BOND:</div>
+        <div class="r-val"><span class="hot">$79.99</span> + 5 days rent <span class="mint">(paid in full below)</span></div>
+      </div>
+    </section>
+
+    <footer class="bondsman-section">
+      <div class="surety-photo">
+        <img class="ghost-img" src="{ghost_uri}" alt="make.fun ghost surety agent" />
+        <div class="surety-cap">SURETY AGENT #01</div>
+      </div>
+
+      <div class="surety-right">
+        <div class="bond-stamp">
+          <div class="bs-top">
+            <span class="bs-pill">✓ BAIL POSTED BY MY AI AGENT</span>
+            <span class="bs-won">$1,666 won</span>
+          </div>
+          <div class="bs-brand">
+            <span class="bs-sub">real money in bounties on</span>
+            {wm}
+          </div>
+        </div>
+
+        <div class="sig-row">
+          <span class="sig-lbl">BONDSMAN:</span>
+          <div class="sig-line">My AI Agent &nbsp;(grinding while parolee plays)</div>
         </div>
       </div>
-    </div>
-
-    <!-- FOUR GIANT SINGLE-LINE HR FIELDS -->
-    <div class="hr-body">
-      <div class="hr-row">
-        <div class="hr-lbl">TENURE:</div>
-        <div class="hr-val">13 years waiting since Los Santos (2013)</div>
-      </div>
-
-      <div class="hr-row">
-        <div class="hr-lbl">SYMPTOMS:</div>
-        <div class="hr-val symp">214 GB SSD<span class="dot">·</span>Florida gators<span class="dot">·</span>Jason &amp; Lucia</div>
-      </div>
-
-      <div class="hr-row">
-        <div class="hr-lbl">DURATION:</div>
-        <div class="hr-val">5 Unpaid Days <span style="font-weight:700;color:#475569;">(boss:</span> <span class="red-warn">do NOT call</span><span style="font-weight:700;color:#475569;">)</span></div>
-      </div>
-
-      <div class="hr-row">
-        <div class="hr-lbl">PAYROLL:</div>
-        <div class="hr-val pay">Temp AI covers <span class="hot">$79.99</span> + pay (<span class="mint">$1,666 won</span>) →</div>
-      </div>
-    </div>
-
-    <footer class="hr-foot">
-      <span class="sig-lbl">SIGNED:</span>
-      <div class="hr-sig-line">H.R. Dept. &nbsp;(also calling in sick)</div>
     </footer>
-  </section>
-
-  <!-- ===== METALLIC LANYARD CLIP & MAGENTA RIBBON ===== -->
-  <svg class="lanyard-svg" viewBox="0 0 164 122" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M 52 -4 L 62 62 L 102 62 L 112 -4 Z" fill="#C41C83" stroke="#191419" stroke-width="5"/>
-    <path d="M 65 -4 L 72 60 M 99 -4 L 92 60" stroke="#F472B6" stroke-width="3" opacity="0.65"/>
-    <rect x="54" y="50" width="56" height="32" rx="8" fill="#CBD5E1" stroke="#191419" stroke-width="5"/>
-    <rect x="64" y="58" width="36" height="10" rx="4" fill="#F8FAFC"/>
-    <path d="M 70 82 L 70 108 Q 82 116 94 108 L 94 82" stroke="#94A3B8" stroke-width="10" stroke-linecap="round"/>
-    <path d="M 70 82 L 70 108 Q 82 116 94 108 L 94 82" stroke="#191419" stroke-width="4" stroke-linecap="round" fill="none"/>
-  </svg>
-
-  <!-- ===== RIGHT: CLIPPED LAMINATED TEMP REPLACEMENT ID BADGE ===== -->
-  <aside class="badge-card">
-    <div class="badge-top">
-      <div class="punch-slot"></div>
-      <div class="badge-top-title">TEMP REPLACEMENT</div>
-    </div>
-
-    <div class="photo-frame">
-      <svg class="height-lines" viewBox="0 0 416 294" xmlns="http://www.w3.org/2000/svg">
-        <g stroke="#DDD0EC" stroke-width="2.5">
-          <line x1="0" y1="54" x2="416" y2="54"/>
-          <line x1="0" y1="114" x2="416" y2="114"/>
-          <line x1="0" y1="174" x2="416" y2="174"/>
-          <line x1="0" y1="234" x2="416" y2="234"/>
-        </g>
-      </svg>
-      <img class="ghost-photo" src="{ghost_uri}" alt="make.fun ghost mascot" />
-    </div>
-
-    <div class="badge-fields">
-      <div class="bf-name">MY AI AGENT</div>
-
-      <div class="bf-agency-box">
-        {wm}
-        <div class="bf-pitch">wins real money in bounties</div>
-        <div class="bf-pitch-sub">while I play GTA VI</div>
-      </div>
-
-      <div class="status-pill">✓ BOSS HASN&rsquo;T NOTICED</div>
-    </div>
-  </aside>
+  </div>
 </div>
 </body></html>
 """
 
 
-def render() -> None:
+def main() -> None:
     ghost_uri = extract_clean_ghost_data_uri(MARK_PATH)
-    wordmark_svg = WORDMARK_PATH.read_text(encoding="utf-8").strip()
-    html = build_html(ghost_uri, wordmark_svg)
+    wm = WORDMARK_PATH.read_text(encoding="utf-8").strip()
+    html = build_html(ghost_uri, wm)
 
     chrome_path = "/usr/bin/google-chrome"
     launch_kwargs: dict[str, object] = {"headless": True}
@@ -561,7 +490,7 @@ def render() -> None:
     try:
         with sync_playwright() as p:
             browser = p.chromium.launch(**launch_kwargs)
-            page = browser.new_page(viewport={"width": 1536, "height": 960}, device_scale_factor=2)
+            page = browser.new_page(viewport={"width": 1024, "height": 960}, device_scale_factor=2)
             page.goto(f"file://{tmp_html}", wait_until="load")
             loaded = page.evaluate(
                 "async () => { await document.fonts.ready; return [...document.fonts].filter(f => f.status==='loaded').map(f => `${f.family}:${f.weight}`); }"
@@ -572,21 +501,13 @@ def render() -> None:
         os.unlink(tmp_html)
 
     hi = Image.open(io.BytesIO(raw)).convert("RGB")
-    final = hi.resize((1536, 960), Image.Resampling.LANCZOS)
-    final.save(OUTPUT_PATH, format="PNG", optimize=True, compress_level=9)
-    size_bytes = OUTPUT_PATH.stat().st_size
-
-    if size_bytes > 450 * 1024:
-        quant = final.quantize(colors=256, method=Image.Quantize.FASTOCTREE, dither=Image.Dither.FLOYDSTEINBERG)
-        quant.save(OUTPUT_PATH, format="PNG", optimize=True, compress_level=9)
-        size_bytes = OUTPUT_PATH.stat().st_size
-        mode = "P(256)"
-    else:
-        mode = "RGB(24-bit)"
-
-    print(f"Fonts: {loaded}")
-    print(f"Rendered {OUTPUT_PATH} ({final.size[0]}x{final.size[1]}, {mode}, {size_bytes:,} bytes)")
+    final = hi.resize((1024, 960), Image.Resampling.LANCZOS)
+    final.save(OUT_PATH, format="PNG", optimize=True, compress_level=9)
+    sz = OUT_PATH.stat().st_size
+    if sz > 450 * 1024:
+        raise RuntimeError(f"Output PNG too large: {sz} bytes (> 450 KB)")
+    print(f"Rendered {OUT_PATH} ({final.size[0]}x{final.size[1]} RGB, {sz:,} bytes) | fonts={loaded}")
 
 
 if __name__ == "__main__":
-    render()
+    main()
