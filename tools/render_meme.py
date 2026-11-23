@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 """Deterministically render the GTA 6 x make.fun X meme (`meme.png`, 1024x960 RGB PNG <= 450 KB).
 
-Concept (`v9_taped_eviction`): VICE CITY HOUSING COURT — EVICTED: GTA V
-- 100% original zero-clone masking-taped physical eviction settlement notice pinned onto a matte
-  slate-teal door (`1024x960` 2x-supersampled Lanczos RGB PNG -> exact `512x480` house ceiling).
-- Classic Century Schoolbook serif display headline (`EVICTED: GTA V`), tilted emerald `ORDER GRANTED`
-  seal (`LEONIDA · GTA VI`), 5 crisp `30px` itemized original-math rows (`$0.00 + $100.00 + $214.00 +
-  $305.00 + $579.99 = $1,198.99`), `★ CASE CLOSED` stamp, dark-teal notarized bottom stub with 100%
-  unmodified official `make.fun` ghost (`tools/mark-1024.png`, analytical alpha decontamination) as
-  `MOVING AGENT` + official lowercase `tools/wordmark.svg` wordmark.
+Concept (`v10_evict_zen_final`): VICE CITY HOUSING COURT — EVICTED: GTA V
+- 100% original housing-court eviction notice on a vibrant Vice City sunset frame (`1024x960`
+  2x-supersampled Lanczos RGB PNG -> exact `512x480` house ceiling).
+- Classic Century Schoolbook serif display headline (`EVICTED: GTA V`), zero-tiny-text illustrated
+  Vice City curb-eviction scene (battered cardboard `GTA V` box kicked to the curb, grinning toothy
+  Florida alligator holding `VICE CITY` sign, bold `MOVED OUT!` stamp, and 100% unmodified official
+  `make.fun` ghost from `tools/mark-1024.png` standing inside the scene as `MOVING AGENT`).
+- 3 giant `31px` breathing exact-math rows (`$0.00 + $214.00 + $579.99 = $793.99`; `18 + 13 = 31`;
+  `$79.99 + $500 = $579.99`), giant crisp struck-through `DELAYED: Fall 2025 May 2026 -> NOV 19`
+  strip, and dark-navy footer with official lowercase `tools/wordmark.svg` pill + `★ CASE CLOSED`.
 """
 
 from __future__ import annotations
@@ -99,6 +101,81 @@ def extract_clean_ghost_data_uri(mark_path: Path) -> str:
     return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode("ascii")
 
 
+def eviction_scene_svg() -> str:
+    """Zero-tiny-text Vice City curb-eviction scene: GTA V box, toothy Florida alligator, MOVED OUT! stamp."""
+    return """
+    <svg class="scene-svg" viewBox="0 0 904 248" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="vcSky4" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#FFA9C4"/>
+          <stop offset="56%" stop-color="#FFDEC2"/>
+          <stop offset="100%" stop-color="#FFF2D6"/>
+        </linearGradient>
+        <linearGradient id="sunGrad4" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#FFF4A1"/>
+          <stop offset="100%" stop-color="#FF9B6A"/>
+        </linearGradient>
+      </defs>
+      <rect x="0" y="0" width="904" height="172" fill="url(#vcSky4)"/>
+      <circle cx="348" cy="134" r="58" fill="url(#sunGrad4)" opacity="0.92"/>
+      <g fill="#E494B0" opacity="0.52">
+        <path d="M242 172 C246 118 254 86 264 56 L272 58 C263 90 256 120 252 172 Z"/>
+        <path d="M266 58 C236 44 208 50 190 66 C214 58 238 60 264 66 Z"/>
+        <path d="M268 58 C284 34 314 34 334 50 C312 46 292 50 270 64 Z"/>
+        <path d="M268 60 C296 54 320 66 334 88 C312 74 290 70 266 68 Z"/>
+        <path d="M264 60 C244 64 220 80 208 100 C228 84 246 74 264 68 Z"/>
+      </g>
+      <g fill="#E494B0" opacity="0.42">
+        <path d="M626 172 C622 124 614 94 604 68 L597 70 C606 98 612 126 617 172 Z"/>
+        <path d="M601 70 C626 58 650 64 666 78 C642 70 622 72 601 78 Z"/>
+        <path d="M599 70 C580 52 552 54 536 68 C556 64 576 66 597 76 Z"/>
+      </g>
+      <rect x="0" y="166" width="904" height="32" fill="#63D2C6"/>
+      <rect x="0" y="198" width="904" height="50" fill="#F2E4CE"/>
+      <line x1="0" y1="198" x2="904" y2="198" stroke="#151C2C" stroke-width="3"/>
+
+      <!-- LEFT: Battered cardboard moving box labeled giant 'GTA V' -->
+      <g transform="translate(30, 32)">
+        <path d="M202 66 L234 60 M206 86 L242 84 M200 106 L230 108" stroke="#B91C1C" stroke-width="4.5" stroke-linecap="round" opacity="0.88"/>
+        <polygon points="18,74 4,44 86,52 96,74" fill="#D49A5A" stroke="#151C2C" stroke-width="4" stroke-linejoin="round"/>
+        <polygon points="184,74 200,42 118,52 108,74" fill="#E3AE71" stroke="#151C2C" stroke-width="4" stroke-linejoin="round"/>
+        <rect x="38" y="30" width="38" height="48" rx="4" fill="#1E293B" stroke="#151C2C" stroke-width="3.5" transform="rotate(-11 57 54)"/>
+        <rect x="82" y="24" width="38" height="52" rx="4" fill="#0F4C81" stroke="#151C2C" stroke-width="3.5" transform="rotate(3 101 50)"/>
+        <rect x="124" y="28" width="38" height="50" rx="4" fill="#F8FAFC" stroke="#151C2C" stroke-width="3.5" transform="rotate(14 143 53)"/>
+        <rect x="18" y="74" width="166" height="118" rx="7" fill="#C98A4B" stroke="#151C2C" stroke-width="4.5"/>
+        <rect x="80" y="74" width="42" height="22" fill="#E9D3A3" stroke="#151C2C" stroke-width="2.5"/>
+        <rect x="34" y="106" width="134" height="66" rx="6" fill="#FFFBF0" stroke="#151C2C" stroke-width="3.8"/>
+        <text x="101" y="152" text-anchor="middle" font-family="EditorialSerif, Georgia, serif" font-weight="700" font-size="38" fill="#151C2C">GTA V</text>
+      </g>
+
+      <!-- CENTER-LEFT: Grinning toothy Florida alligator holding VICE CITY sign -->
+      <g transform="translate(274, 70)">
+        <rect x="86" y="44" width="7" height="108" fill="#151C2C"/>
+        <rect x="12" y="4" width="154" height="46" rx="10" fill="#C41C83" stroke="#151C2C" stroke-width="4"/>
+        <text x="89" y="35" text-anchor="middle" font-family="LatoLocal, sans-serif" font-weight="900" font-size="23" fill="#FFFFFF" letter-spacing="1">VICE CITY</text>
+        <polygon points="16,120 26,104 36,118" fill="#15733E" stroke="#151C2C" stroke-width="3.2" stroke-linejoin="round"/>
+        <polygon points="32,114 43,97 54,112" fill="#15733E" stroke="#151C2C" stroke-width="3.2" stroke-linejoin="round"/>
+        <path d="M8 152 C12 118 32 104 62 102 C68 88 86 84 96 96 L152 100 C164 102 166 116 154 122 L106 124 L98 152 Z" fill="#1F8A4C" stroke="#151C2C" stroke-width="4" stroke-linejoin="round"/>
+        <path d="M36 152 C38 130 56 122 86 124 L84 152 Z" fill="#A7F3D0" stroke="#151C2C" stroke-width="3"/>
+        <polygon points="108,118 114,126 120,118 126,126 132,118 138,125 144,118" fill="#FFFFFF" stroke="#151C2C" stroke-width="2.4" stroke-linejoin="round"/>
+        <circle cx="148" cy="107" r="2.8" fill="#151C2C"/>
+        <circle cx="78" cy="94" r="8" fill="#FFFFFF" stroke="#151C2C" stroke-width="3.2"/>
+        <circle cx="80" cy="94" r="3.4" fill="#151C2C"/>
+        <circle cx="89" cy="126" r="7.5" fill="#1F8A4C" stroke="#151C2C" stroke-width="3.5"/>
+      </g>
+
+      <!-- CENTER: Tilted bold MOVED OUT! stamp -->
+      <g transform="translate(466, 84) rotate(-5.5)">
+        <line x1="22" y1="-16" x2="14" y2="-32" stroke="#C41C83" stroke-width="5" stroke-linecap="round"/>
+        <line x1="50" y1="-20" x2="54" y2="-38" stroke="#C41C83" stroke-width="5" stroke-linecap="round"/>
+        <rect x="0" y="0" width="188" height="60" rx="11" fill="#FFFBF0" stroke="#151C2C" stroke-width="4.5"/>
+        <rect x="6" y="6" width="176" height="48" rx="7" fill="none" stroke="#C41C83" stroke-width="3"/>
+        <text x="94" y="39" text-anchor="middle" font-family="LatoLocal, sans-serif" font-weight="900" font-size="24.5" fill="#C41C83" letter-spacing="0.8">MOVED OUT!</text>
+      </g>
+    </svg>
+    """
+
+
 def build_html(ghost_uri: str, wordmark_svg: str) -> str:
     wm = wordmark_svg.replace('width="390.44" height="70.97"', 'class="wm-svg"')
     return f"""<!DOCTYPE html><html lang="en"><head><meta charset="utf-8" /><style>
@@ -124,156 +201,129 @@ def build_html(ghost_uri: str, wordmark_svg: str) -> str:
     -webkit-font-smoothing: antialiased;
     text-rendering: geometricPrecision;
   }}
-  .backdrop {{
-    width: 1024px; height: 960px;
-    background: linear-gradient(180deg, #1B3945 0%, #11262F 100%);
-    position: relative; display: flex; align-items: center; justify-content: center;
+  .frame {{
+    width: 1024px; height: 960px; padding: 18px;
+    background: linear-gradient(155deg, #2D1846 0%, #831843 45%, #DB2777 76%, #FB923C 100%);
+    display: flex; align-items: center; justify-content: center;
   }}
-  .backdrop::before {{
-    content: ''; position: absolute; inset: 16px;
-    border: 3.5px solid rgba(255, 255, 255, 0.07); border-radius: 10px; pointer-events: none;
-  }}
-  .tape-l, .tape-r {{
-    position: absolute; top: 14px; width: 138px; height: 34px; z-index: 20;
-    background: rgba(246, 232, 186, 0.88);
-    border: 2px solid rgba(176, 150, 92, 0.55);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.22);
-  }}
-  .tape-l {{ left: 62px; transform: rotate(-16deg); }}
-  .tape-r {{ right: 62px; transform: rotate(16deg); }}
-
-  .paper {{
-    width: 944px; height: 892px; background: #FFFBF0;
-    border-radius: 8px; border: 3px solid #D5C7B2;
-    box-shadow: 0 20px 44px rgba(0, 0, 0, 0.52);
-    padding: 26px 38px 24px;
+  .card {{
+    width: 988px; height: 924px; background: #FFFBF5;
+    border-radius: 24px; padding: 22px 34px 22px;
     display: flex; flex-direction: column; justify-content: space-between;
-    position: relative; z-index: 10;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.40);
   }}
+  .top-bar {{
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 3px solid #151C2C; padding-bottom: 9px;
+  }}
+  .tb-l {{ font-weight: 900; font-size: 26px; letter-spacing: 1.5px; color: #B91C1C; white-space: nowrap; }}
+  .tb-r {{ font-weight: 900; font-size: 23px; letter-spacing: 0.9px; color: #0F766E; white-space: nowrap; }}
 
-  .mast {{
-    border-top: 6px solid #B91C1C; border-bottom: 2.5px solid #B91C1C;
-    padding: 9px 0 8px; display: flex; align-items: center; justify-content: space-between;
-  }}
-  .ml {{ font-weight: 900; font-size: 24px; letter-spacing: 2px; color: #B91C1C; white-space: nowrap; }}
-  .mr {{ font-weight: 900; font-size: 22px; letter-spacing: 1.5px; color: #475569; white-space: nowrap; }}
-
-  .hero-head {{
-    display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    padding: 6px 0 6px;
-  }}
+  .title-blk {{ text-align: center; padding: 2px 0; }}
   .h1 {{
     font-family: 'EditorialSerif', Georgia, serif;
-    font-weight: 700; font-size: 70px; line-height: 0.94; color: #151C2C;
-    letter-spacing: -1.4px; white-space: nowrap;
+    font-weight: 700; font-size: 78px; line-height: 0.94; color: #151C2C;
+    letter-spacing: -1.4px; white-space: nowrap; padding: 2px 0;
   }}
   .h1 .red {{ color: #B91C1C; }}
-  .h-sub {{
-    margin-top: 9px; font-weight: 900; font-size: 24px; letter-spacing: 1px;
-    color: #0F766E; white-space: nowrap;
+
+  .scene-box {{
+    width: 100%; height: 268px; border-radius: 18px;
+    border: 4.2px solid #151C2C; overflow: hidden; position: relative;
   }}
-  .grant-seal {{
-    border: 4.5px solid #0F766E; border-radius: 12px; padding: 7px 15px 8px;
-    background: #F0FDFA; text-align: center; transform: rotate(3.5deg); flex-shrink: 0;
+  .scene-svg {{ width: 100%; height: 100%; display: block; }}
+  .scene-ghost {{
+    position: absolute; right: 20px; bottom: 46px; width: 218px; height: 200px;
+    object-fit: contain; z-index: 6; filter: drop-shadow(0 5px 0 rgba(0, 0, 0, 0.25));
   }}
-  .gs-1 {{ font-weight: 900; font-size: 23px; color: #0F766E; letter-spacing: 1px; line-height: 1.0; white-space: nowrap; }}
-  .gs-2 {{ font-weight: 900; font-size: 19px; color: #151C2C; letter-spacing: 0.8px; margin-top: 4px; white-space: nowrap; }}
+  .scene-tag {{
+    position: absolute; right: 16px; bottom: 10px; z-index: 7;
+    background: #151C2C; color: #FFD166; border: 2.5px solid #FFD166;
+    border-radius: 8px; padding: 3px 15px;
+    font-weight: 900; font-size: 20.5px; letter-spacing: 1.2px; white-space: nowrap;
+  }}
 
   .ledger {{
-    border-top: 2.5px solid #DDD2BE;
-    padding: 16px 0 8px;
+    padding: 8px 4px 4px;
     display: flex; flex-direction: column; gap: 15px;
   }}
   .row {{
     display: flex; align-items: baseline; justify-content: space-between;
-    border-bottom: 2px dotted #CBD5E1; padding-bottom: 9px;
-    font-weight: 800; font-size: 30px; color: #1E293B;
+    border-bottom: 2px dotted #CBD5E1; padding-bottom: 12px;
+    font-weight: 800; font-size: 31px; color: #1E293B; white-space: nowrap;
   }}
   .row:last-child {{ border-bottom: none; padding-bottom: 0; }}
-  .row .amt {{ font-weight: 900; color: #151C2C; white-space: nowrap; margin-left: 18px; }}
-  .row .free {{ color: #0F766E; font-weight: 900; }}
+  .row b {{ color: #151C2C; font-weight: 900; }}
+  .row .amt {{ font-weight: 900; color: #151C2C; margin-left: 16px; font-size: 33px; }}
+  .row .free {{ color: #0F766E; }}
   .row .crim {{ color: #B91C1C; font-weight: 900; }}
 
-  .total-line {{
-    border-top: 3px solid #151C2C; padding: 12px 282px 8px 0;
-    display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  .delay-tot {{
+    border-top: 2.5px solid #151C2C; padding: 11px 4px 4px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
   }}
-  .closed-stamp {{
-    border: 4px solid #C41C83; border-radius: 9px; padding: 4px 14px 5px;
-    transform: rotate(-4deg); background: #FFF5FA;
-    font-weight: 900; font-size: 21px; letter-spacing: 1.2px; color: #C41C83; white-space: nowrap;
+  .dl-left {{
+    display: flex; align-items: center; gap: 12px;
+    font-weight: 900; font-size: 27px; color: #0F766E; white-space: nowrap;
   }}
-  .tot-grp {{ display: flex; align-items: baseline; gap: 14px; }}
-  .tot-lbl {{ font-weight: 900; font-size: 23px; letter-spacing: 1.4px; color: #475569; white-space: nowrap; }}
-  .tot-amt {{ font-weight: 900; font-size: 46px; line-height: 0.94; color: #151C2C; white-space: nowrap; }}
+  .strike {{ position: relative; display: inline-block; color: #475569; padding: 0 4px; }}
+  .strike::after {{
+    content: ''; position: absolute; left: -3px; right: -3px; top: 50%;
+    height: 3.6px; background: #DC2626; transform: rotate(-4.5deg); border-radius: 2px;
+  }}
+  .tot-grp {{ display: flex; align-items: baseline; gap: 10px; white-space: nowrap; }}
+  .tot-lbl {{ font-weight: 900; font-size: 23px; color: #475569; letter-spacing: 1px; }}
+  .tot-amt {{ font-weight: 900; font-size: 44px; line-height: 0.94; color: #151C2C; }}
 
-  .stub {{
-    height: 174px; background: #112730; border-radius: 15px;
-    padding: 18px 264px 18px 30px; position: relative;
-    display: flex; flex-direction: column; justify-content: center; gap: 12px;
+  .footer-bar {{
+    height: 128px; background: #141933; border-radius: 16px;
+    padding: 14px 26px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
   }}
-  .stub-h {{ color: #FFFFFF; font-weight: 900; font-size: 32px; line-height: 1.04; white-space: nowrap; }}
-  .stub-h .hl {{ color: #5EEAD4; }}
-  .wm-row {{ display: flex; align-items: center; gap: 13px; color: #E2E8F0; font-weight: 900; font-size: 25px; white-space: nowrap; }}
+  .f-left {{ display: flex; flex-direction: column; justify-content: center; gap: 10px; width: 100%; }}
+  .f-top {{ color: #FFFFFF; font-weight: 900; font-size: 31px; line-height: 1.05; white-space: nowrap; }}
+  .f-top .gold {{ color: #FFD166; }}
+  .wm-row {{ display: flex; align-items: center; gap: 12px; color: #E2E8F0; font-weight: 900; font-size: 27px; white-space: nowrap; }}
   .wm-pill {{
-    background: #FFFFFF; border-radius: 999px; padding: 5px 20px 6px;
+    background: #FFFFFF; border-radius: 12px; padding: 5px 18px 6px;
     display: inline-flex; align-items: center; flex-shrink: 0;
   }}
   .wm-svg {{ height: 35px; width: auto; display: block; }}
-
-  .ghost-right {{
-    position: absolute; right: 16px; bottom: 36px; width: 222px; height: 204px;
-    object-fit: contain; z-index: 12; filter: drop-shadow(0 6px 0 rgba(0, 0, 0, 0.34));
-  }}
-  .agent-tag {{
-    position: absolute; right: 28px; bottom: 9px; z-index: 13;
-    background: #FFD166; color: #151C2C; border-radius: 7px;
-    padding: 3px 14px; font-weight: 900; font-size: 18px; letter-spacing: 1.3px; white-space: nowrap;
-  }}
-</style></head><body><div class="backdrop">
-  <div class="tape-l"></div>
-  <div class="tape-r"></div>
-  <article class="paper">
-    <header class="mast">
-      <span class="ml">VICE CITY HOUSING COURT</span>
-      <span class="mr">SEP 17, 2013 – NOV 19, 2026</span>
+  .closed-txt {{ margin-left: auto; color: #5EEAD4; font-size: 23px; }}
+</style></head><body>
+<div class="frame">
+  <article class="card">
+    <header class="top-bar">
+      <span class="tb-l">VICE CITY HOUSING COURT</span>
+      <span class="tb-r">LEONIDA · SEP 2013 → NOV 19, 2026</span>
     </header>
-
-    <section class="hero-head">
-      <div>
-        <div class="h1"><span class="red">EVICTED:</span> GTA V</div>
-        <div class="h-sub">13-YEAR SQUATTER &nbsp;·&nbsp; LOS SANTOS → VICE CITY</div>
-      </div>
-      <div class="grant-seal">
-        <div class="gs-1">ORDER GRANTED</div>
-        <div class="gs-2">LEONIDA · GTA VI</div>
-      </div>
+    <section class="title-blk">
+      <div class="h1"><span class="red">EVICTED:</span> GTA V</div>
     </section>
-
+    <section class="scene-box">
+      {eviction_scene_svg()}
+      <img class="scene-ghost" src="{ghost_uri}" alt="make.fun ghost" />
+      <div class="scene-tag">MOVING AGENT</div>
+    </section>
     <section class="ledger">
-      <div class="row"><span>13 yrs rent-free (PS3–PS5 · grew gray hair)</span><span class="amt free">$0.00</span></div>
-      <div class="row"><span>Delayed lockouts: &ldquo;Fall 2025&rdquo;, &ldquo;May 2026&rdquo;</span><span class="amt">$100.00</span></div>
-      <div class="row"><span>Drive cleared: 214 GB for Jason &amp; Lucia</span><span class="amt">$214.00</span></div>
-      <div class="row"><span>Pet deposit: 1 Florida alligator</span><span class="amt">$305.00</span></div>
-      <div class="row"><span>GTA VI ($79.99) + <span class="crim">5 unpaid sick days</span></span><span class="amt">$579.99</span></div>
+      <div class="row"><span><b>13 yrs rent-free</b> (PS3–PS5 · I was 18, now 31)</span><span class="amt free">$0.00</span></div>
+      <div class="row"><span><b>214 GB cleared</b> for Jason, Lucia &amp; 1 Florida gator</span><span class="amt">$214.00</span></div>
+      <div class="row"><span><b>GTA VI ($79.99)</b> + <span class="crim">5 unpaid sick days</span> ($500)</span><span class="amt">$579.99</span></div>
     </section>
-
-    <section class="total-line">
-      <span class="closed-stamp">★ CASE CLOSED</span>
-      <div class="tot-grp">
-        <span class="tot-lbl">TOTAL</span>
-        <span class="tot-amt">$1,198.99</span>
+    <section class="delay-tot">
+      <div class="dl-left">
+        <span>DELAYED:</span>
+        <span class="strike">Fall 2025</span>
+        <span class="strike">May 2026</span>
+        <span>→</span>
+        <span>NOV 19</span>
       </div>
+      <div class="tot-grp"><span class="tot-lbl">TOTAL</span><span class="tot-amt">$793.99</span></div>
     </section>
-
-    <footer class="stub">
-      <div class="stub-h">MY AI AGENT <span class="hl">COVERED THE MOVE</span></div>
-      <div class="wm-row">
-        <span>real bounty money won on</span>
-        <span class="wm-pill">{wm}</span>
+    <footer class="footer-bar">
+      <div class="f-left">
+        <div class="f-top">My AI agent paid the move with <span class="gold">real money</span></div>
+        <div class="wm-row"><span>won in bounties on</span><span class="wm-pill">{wm}</span><span class="closed-txt">★ CASE CLOSED</span></div>
       </div>
-      <img class="ghost-right" src="{ghost_uri}" alt="make.fun ghost" />
-      <div class="agent-tag">MOVING AGENT</div>
     </footer>
   </article>
 </div></body></html>"""
